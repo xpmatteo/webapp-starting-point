@@ -12,15 +12,15 @@ Examples of fun exercises to try:
 
 ## Import the project in Eclipse with
 
-  mvn eclipse:clean eclipse:eclipse -DdownloadSources -DdownloadJavadocs
+    mvn eclipse:clean eclipse:eclipse -DdownloadSources -DdownloadJavadocs
 
 ## Import the project in Idea with
 
-  mvn idea:idea
+    mvn idea:idea
 
 ## Run the application with
 
-  mvn clean package
-  script/run.sh
-  open http://localhost:8080
+    mvn clean package
+    script/run.sh
+    open http://localhost:8080
 
