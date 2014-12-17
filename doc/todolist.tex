@@ -1,0 +1,79 @@
+\documentclass{beamer}
+\input{lib/preamble-beamer.tex}
+
+\newenvironment{planguage}[1]%
+{\begin{minipage}{\textwidth}\label{plan:#1}\par\noindent\textbf{Tag: #1\\}\begin{quote}\setlength{\parskip}{0pt}}%
+{\end{quote}\end{minipage}}
+
+\newcommand{\planItem}[1]{\par #1:\ }
+
+\newcommand{\planMandatory}{\planItem{Obbligatorio} Sì}
+\newcommand{\planOptional}{\planItem{Obbligatorio} NO}
+
+\newcommand{\planRef}[1]{#1~(p.\ \pageref{plan:#1})}
+
+\newcommand{\planType}{\planItem{Type}}
+\newcommand{\planScale}{\planItem{Scale}}
+\newcommand{\planMeasure}{\planItem{Measure}}
+\newcommand{\planGoal}{\planItem{Goal}}
+\newcommand{\planIncludes}{\planItem{Includes}}
+\newcommand{\planDefinedAs}{\planItem{Defined As}}
+\newcommand{\planStatus}{\planItem{Status}}
+\newcommand{\planDescription}{\planItem{Description}}
+\newcommand{\planTest}{\planItem{Test}}
+\newcommand{\planNote}{\planItem{Note}}
+
+
+\begin{document}
+
+\begin{frame}
+  \centerimg{4.0}{tabletop_roleplaying}
+  \begin{flushright}
+    \tiny http://xkcd.com/244/
+  \end{flushright}
+\end{frame}
+
+
+\begin{frame}\frametitle{Web App Lab: clone Tadalist}
+
+  \begin{center}
+
+  Matteo Vaccari
+  \\ http://matteo.vaccari.name/
+  \\ matteo.vaccari@agilereloaded.it
+
+  \centerimg{0.5}{cc-by-nc-sa.png}
+  \vspace{-2em}
+   \tiny (cc) Matteo Vaccari.  Published in Italy.\\
+  Attribution -- Non commercial -- Share alike 2.5
+   \end{center}
+\end{frame}
+
+
+\begin{frame}\frametitle{tadalist.com}
+  \centerimg{0.6}{tadalist.png}
+\end{frame}
+
+\begin{frame}\frametitle{Si parte da una lista di liste}
+  \centerimg{0.6}{00-list-of-lists}
+\end{frame}
+
+\begin{frame}\frametitle{Si crea una nuova lista}
+  \centerimg{0.6}{01-todolist-create}
+\end{frame}
+
+\begin{frame}\frametitle{Si crea un elemento della lista}
+  \centerimg{0.6}{02-create-an-item}
+\end{frame}
+
+\begin{frame}\frametitle{Eccetera...}
+  \centerimg{0.6}{03-a-few-items}
+\end{frame}
+
+\begin{frame}\frametitle{Si possono marcare come ``fatti''}
+  \centerimg{0.6}{04-checked-an-item}
+\end{frame}
+
+
+
+\end{document}
