@@ -5,7 +5,7 @@ This template can be used to start a new Java web app project, as well as for co
 
 Examples of fun exercises to try:
 
- * Todo list
+ * Todo list  (see doc directory)
  * Semaphores
  * Lights Out
 
