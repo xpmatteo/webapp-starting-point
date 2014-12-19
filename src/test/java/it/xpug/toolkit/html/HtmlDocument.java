@@ -15,11 +15,11 @@ import org.xml.sax.*;
 public class HtmlDocument {
 
 	private final Node node;
-	private String xml;
+	private String html;
 
-	public HtmlDocument(String xml) {
-		this.xml = xml;
-		Document w3cDocument = getW3CDocument(treatEntitiesAsText(xml));
+	public HtmlDocument(String html) {
+		this.html = html;
+		Document w3cDocument = getW3CDocument(treatEntitiesAsText(html));
 		this.node = getRootElement(w3cDocument);
 	}
 
@@ -49,7 +49,7 @@ public class HtmlDocument {
 	@Override
 	public String toString() {
 //		return node.toString();
-		return this.xml;
+		return this.html;
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class HtmlDocument {
 			if (child.getNodeType() == Node.ELEMENT_NODE)
 				return child;
 		}
-		throw new ElementNotFoundException("Unable to find root");
+		throw new ElementNotFound("Unable to find root");
 	}
 
 	private boolean isWhitespaceNode(Node child) {
@@ -163,7 +163,7 @@ public class HtmlDocument {
 		NodeList nodes = getW3CNodeList(xpath);
 		int length = nodes.getLength();
 		if (length != 1) {
-			throw new ElementNotFoundException(format("\"%s\": expected 1 node, found %d", xpath, length));
+			throw new ElementNotFound(format("\"%s\": expected 1 node, found %d", xpath, length));
 		}
 		return nodes.item(0);
 	}
@@ -207,8 +207,8 @@ public class HtmlDocument {
 	}
 
 	@SuppressWarnings("serial")
-	public class ElementNotFoundException extends RuntimeException {
-		public ElementNotFoundException(String message) {
+	public class ElementNotFound extends RuntimeException {
+		public ElementNotFound(String message) {
 			super(message);
 		}
 	}

@@ -1,1 +1,1 @@
-Hello, ${user}!
+Hello, ${name}!
