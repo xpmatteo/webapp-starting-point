@@ -1,0 +1,87 @@
+\setbeamersize{text margin left=0.3cm}
+\setbeamersize{text margin right=0.3cm}
+\setbeamertemplate{navigation symbols}{}
+
+\mode<beamer>
+{
+  \usetheme{Singapore}
+%  \setbeamercovered{transparent}
+}
+\mode<handout>
+{
+  \usetheme{default}
+}
+
+\usepackage[italian]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{concrete}
+\usepackage{url}
+\usepackage{xspace}
+
+\setlength{\parskip}{1em}
+
+\newcommand{\bsl}{\mbox{$\backslash$}}
+\newcommand{\itm}{\\$\bullet$\quad}
+\newcommand{\bul}{$\bullet$\quad}
+\newcommand{\itmm}{\\\phantom{x}\quad$-$\quad}
+\newcommand{\itmmm}{\\\phantom{x}\qquad$\cdot$\quad}
+
+\newcommand{\img}[2]{\scalebox{#1}{\includegraphics{images/#2}}}
+\newcommand{\centerimg}[2]{\begin{center}\img{#1}{#2}\end{center}}
+
+\newcommand{\imgforlesson}[3]{\scalebox{#2}{\includegraphics{files-lezione#1/#3}}}
+
+\newcommand{\quotesource}[1]{\hfill\tiny\url{#1}}
+\newcommand{\displayurl}[1]{\[\mbox{\url{#1}}\]}
+\newcommand{\arr}{$\Rightarrow$\xspace}
+\newcommand{\lineup}{\vspace{-2em}}
+\newcommand{\halflineup}{\vspace{-1em}}
+\newcommand{\virgolette}{\textquotedbl\xspace}
+
+\newenvironment{smallverbatim}{\begin{semiverbatim}\small}{\end{semiverbatim}}
+\newenvironment{tinyverbatim}{\begin{semiverbatim}\scriptsize}{\end{semiverbatim}}
+\setbeamercolor{golden}{fg=white,bg=blue}
+\newcommand{\golden}[1]{\begin{beamerboxesrounded}[upper=golden,lower=golden,shadow=true]{}\centerline{#1}\end{beamerboxesrounded}}
+
+\newenvironment{slide}{\begin{frame}}{\end{frame}}
+\newcommand{\tit}[1]{\frametitle{#1}}
+
+\newenvironment{ymllisting}[1]{#1\hrule\vspace{-1em}\begin{smallverbatim}}{\end{smallverbatim}}
+\newenvironment{htmllisting}[1]{#1\hrule\vspace{-1em}\begin{smallverbatim}}{\end{smallverbatim}}
+
+
+\newcommand{\kand}{{\bf and\xspace}}
+\newcommand{\kbegin}{{\bf begin\xspace}}
+\newcommand{\kcase}{{\bf case\xspace}}
+\newcommand{\kclass}{{\bf class\xspace}}
+\newcommand{\kdef}{{\bf def\xspace}}
+\newcommand{\kdo}{{\bf do\xspace}}
+\newcommand{\keach}{{\bf each\xspace}}
+\newcommand{\kelse}{{\bf else\xspace}}
+\newcommand{\kelsif}{{\bf elsif\xspace}}
+\newcommand{\kend}{{\bf end\xspace}}
+\newcommand{\kensure}{{\bf ensure\xspace}}
+\newcommand{\kfalse}{{\bf false\xspace}}
+\newcommand{\kfor}{{\bf for\xspace}}
+\newcommand{\kif}{{\bf if\xspace}}
+\newcommand{\kpublic}{{\bf public\xspace}}
+\newcommand{\kprivate}{{\bf private\xspace}}
+\newcommand{\kprotected}{{\bf protected\xspace}}
+\newcommand{\kin}{{\bf in\xspace}}
+\newcommand{\knot}{{\bf not\xspace}}
+\newcommand{\kor}{{\bf or\xspace}}
+\newcommand{\kraise}{{\bf raise\xspace}}
+\newcommand{\krepeat}{{\bf repeat\xspace}}
+\newcommand{\krescue}{{\bf rescue\xspace}}
+\newcommand{\kreturn}{{\bf return\xspace}}
+\newcommand{\ksuper}{{\bf \mbox{super}\xspace}}
+\newcommand{\kthen}{{\bf then\xspace}}
+\newcommand{\kto}{{\bf to\xspace}}
+\newcommand{\kunless}{{\bf unless\xspace}}
+\newcommand{\kuntil}{{\bf until\xspace}}
+\newcommand{\kwhen}{{\bf when\xspace}}
+\newcommand{\kwhile}{{\bf while\xspace}}
+\newcommand{\kyield}{{\bf yield\xspace}}
+
+\newcommand{\colorurl}[1]{{\color{StringColor}\url{#1}}}

@@ -3,8 +3,7 @@
 # Purpose: build a zip
 
 set -e
-cd "$(dirname $0)/.."
-mvn clean
-rm /tmp/dojo.zip
-cd ..
-zip -r /tmp/dojo.zip  dojo -x '*/lib*' -x '*.DS_Store*' -x '*target*'
+DEST=/tmp/dojo.zip
+rm -f $DEST || true
+git archive --format=zip --prefix=$(basename $DEST .zip)/ HEAD > $DEST
+ls -l $DEST
