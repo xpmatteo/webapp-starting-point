@@ -5,18 +5,19 @@
 
 # define key information
 src=src/main/sql
-dbname=aw_supermarket_checkout_development
-dbuser=aw_supermarket_checkout
+project=myproject
 dbpassword="secret"
 
 # no customization needed beyond this line
+db_development=${project}_development
+db_test=${project}_test
+dbuser=$project
 
 # Stop at the first error
 set -e
 
 # Go to the main project directory
 cd "$(dirname $0)/.."
-
 
 # if we're on Ubuntu
 if uname -a | grep -qi ubuntu; then
@@ -27,20 +28,24 @@ if uname -a | grep -qi ubuntu; then
   fi
 fi
 
+# create user
+createuser --no-superuser --createdb --no-createrole $dbuser || true
 
-# create database and user
-dropdb $dbname || true
-createdb $dbname
-dropuser $dbuser || true
-createuser --no-superuser --createdb --no-createrole $dbuser
-psql -tAc "ALTER USER $dbuser WITH PASSWORD '$dbpassword'" $dbname
+# create databases
+for db in $db_development $db_test; do
+	echo doing $db
+	
+	dropdb --if-exists $db
+	createdb $db
+	psql -tAc "ALTER USER $dbuser WITH PASSWORD '$dbpassword'" $db
 
-# load all sql scripts in database
-cat $src/???_*.sql $src/seed.sql | psql $dbname
+	# load all sql scripts in database
+	cat $src/???_*.sql $src/seed.sql | psql $db
 
-# grant all privileges on all tables to our user
-for table in $(psql -tAc "select relname from pg_stat_user_tables" $dbname); do
-  psql -tAc "GRANT ALL PRIVILEGES ON TABLE $table TO $dbuser " $dbname
+	# grant all privileges on all tables to our user
+	for table in $(psql -tAc "select relname from pg_stat_user_tables" $db); do
+	  psql -tAc "GRANT ALL PRIVILEGES ON TABLE $table TO $dbuser " $db
+	done
 done
 
 echo "OK"

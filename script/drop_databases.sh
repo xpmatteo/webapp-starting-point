@@ -13,5 +13,7 @@ else
   }
 fi
 
-doit dropdb aw_supermarket_checkout_development
-doit dropuser aw_supermarket_checkout
+doit dropdb myproject_development
+doit dropdb myproject_test
+doit dropuser myproject
+

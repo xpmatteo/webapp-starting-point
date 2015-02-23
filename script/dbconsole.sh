@@ -2,4 +2,4 @@
 #
 # Purpose: enter the database console
 #
-psql aw_supermarket_checkout_development
+psql myproject_development
