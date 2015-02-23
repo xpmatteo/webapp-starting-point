@@ -3,4 +3,8 @@ target
 .classpath
 .project
 .settings
+.idea
+*.iws
+*.ipr
+*.iml
 .DS_Store
