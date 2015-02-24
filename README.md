@@ -18,9 +18,17 @@ Examples of fun exercises to try:
 
     mvn idea:idea
 
+## Create the databases with
+
+		script/create_databases.sh
+
 ## Run the application with
 
     mvn clean package
     script/run.sh
     open http://localhost:8080
+
+## Deploy the application to Heroku
+
+Follow the instructions in script/deploy.sh then run it.
 
