@@ -1,5 +1,6 @@
 package it.xpug.helloworld;
 
+import it.xpug.toolkit.db.Database;
 import it.xpug.toolkit.db.DatabaseConfiguration;
 import it.xpug.toolkit.http.ReusableJettyApp;
 
@@ -9,7 +10,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 		DatabaseConfiguration configuration = new DatabaseConfiguration(getDatabaseUrl());
-		ReusableJettyApp app = new ReusableJettyApp(new HelloWorldServlet(configuration));
+		Database database = new Database(configuration);
+		ReusableJettyApp app = new ReusableJettyApp(new HelloWorldServlet(database));
 		app.start(8080, "src/main/webapp");
 	}
 

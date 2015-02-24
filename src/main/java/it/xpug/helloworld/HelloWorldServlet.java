@@ -2,18 +2,20 @@ package it.xpug.helloworld;
 
 import static java.lang.String.format;
 import it.xpug.toolkit.db.Database;
-import it.xpug.toolkit.db.DatabaseConfiguration;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class HelloWorldServlet extends HttpServlet {
-	private DatabaseConfiguration configuration;
+	private Database database;
 
-	public HelloWorldServlet(DatabaseConfiguration configuration) {
-		this.configuration = configuration;
+	public HelloWorldServlet(Database database) {
+		this.database = database;
 	}
 
 	@Override
@@ -27,7 +29,6 @@ public class HelloWorldServlet extends HttpServlet {
 	}
 
 	private Object seven() {
-		Database database = new Database(configuration);
 		return database.selectOneValue("select 3+4");
 	}
 }
