@@ -2,15 +2,8 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-group = 'it.xpug'
-version = '0.1-SNAPSHOT'
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-repositories {        
-     maven { url "http://repo.maven.apache.org/maven2" }
-}
 
 dependencies {
     compile group: 'org.mortbay.jetty', name: 'jetty-util', version:'6.1.26'
@@ -21,19 +14,25 @@ dependencies {
     testCompile group: 'org.jmock', name: 'jmock-junit4', version:'2.6.0'
 }
 
+// needed by script/run.sh
 task copyDependenciesToBuild(type: Copy) {
     into "$buildDir/dependency"
     from configurations.runtime
 }
-
 assemble.dependsOn(copyDependenciesToBuild)
 
+// needed by heroku; we want it to do the same as "assemble"
 task stage {
   dependsOn assemble
 }
 
+// make test progress visible in console
 test {
     testLogging {
-        events "passed", "skipped", "failed", "standardOut", "standardError"
+        events "passed", "skipped", "failed"
     }
+}
+
+repositories {        
+     maven { url "http://repo.maven.apache.org/maven2" }
 }
