@@ -1,0 +1,34 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'it.xpug'
+version = '0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    compile group: 'org.mortbay.jetty', name: 'jetty-util', version:'6.1.26'
+    compile group: 'org.mortbay.jetty', name: 'jetty', version:'6.1.26'
+    compile group: 'org.freemarker', name: 'freemarker', version:'2.3.20'
+    compile group: 'org.postgresql', name: 'postgresql', version:'9.3-1101-jdbc4'
+    testCompile group: 'junit', name: 'junit', version:'4.11'
+    testCompile group: 'org.jmock', name: 'jmock-junit4', version:'2.6.0'
+}
+
+task copyDependenciesToBuild(type: Copy) {
+    into "$buildDir/dependency"
+    from configurations.runtime
+}
+
+assemble.dependsOn(copyDependenciesToBuild)
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+}

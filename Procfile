@@ -1,1 +1,1 @@
-web:    java -cp target/classes:target/dependency/* it.xpug.helloworld.Main
+web:    script/run.sh
