@@ -26,7 +26,10 @@ task copyDependenciesToBuild(type: Copy) {
 }
 
 assemble.dependsOn(copyDependenciesToBuild)
-stage.dependsOn(assemble)
+
+task stage {
+  dependsOn assemble
+}
 
 test {
     testLogging {
