@@ -16,7 +16,7 @@ Examples of fun exercises to try:
 
 ## Import the project in Idea with
 
-    mvn idea:idea
+    ./gradlew idea
 
 ## Create the databases with
 
