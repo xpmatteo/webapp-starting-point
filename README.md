@@ -12,7 +12,7 @@ Examples of fun exercises to try:
 
 ## Import the project in Eclipse with
 
-    mvn eclipse:clean eclipse:eclipse -DdownloadSources -DdownloadJavadocs
+    ./gradlew eclipse
 
 ## Import the project in Idea with
 
@@ -24,7 +24,7 @@ Examples of fun exercises to try:
 
 ## Run the application with
 
-    mvn clean package
+    ./gradlew assemble
     script/run.sh
     open http://localhost:8080
 
