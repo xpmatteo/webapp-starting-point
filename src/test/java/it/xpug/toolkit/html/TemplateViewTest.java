@@ -1,7 +1,6 @@
 package it.xpug.toolkit.html;
 
 import static org.junit.Assert.*;
-import it.xpug.toolkit.html.*;
 
 import org.junit.*;
 

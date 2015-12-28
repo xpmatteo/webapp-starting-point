@@ -1,34 +1,24 @@
 package it.xpug.helloworld;
 
-import static java.lang.String.format;
-import it.xpug.toolkit.db.Database;
+import it.xpug.toolkit.db.*;
+import it.xpug.toolkit.html.*;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 public class HelloWorldServlet extends HttpServlet {
-	private Database database;
 
-	public HelloWorldServlet(Database database) {
-		this.database = database;
-	}
+	public HelloWorldServlet(DatabaseConfiguration configuration) {
+    }
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
+		TemplateView view = new TemplateView("index.ftl");
 		PrintWriter writer = response.getWriter();
-		writer.write(format("<p id='message'>Hello, world: %s</p>", seven()));
+		writer.write(view.toHtml());
 		writer.close();
-	}
-
-	private Object seven() {
-		return database.selectOneValue("select 3+4");
 	}
 }

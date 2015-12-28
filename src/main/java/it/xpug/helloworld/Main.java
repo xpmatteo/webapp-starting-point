@@ -1,23 +1,21 @@
 package it.xpug.helloworld;
 
-import static java.lang.Integer.valueOf;
-import it.xpug.toolkit.db.Database;
-import it.xpug.toolkit.db.DatabaseConfiguration;
-import it.xpug.toolkit.http.ReusableJettyApp;
+import static java.lang.Integer.*;
+import it.xpug.toolkit.db.*;
+import it.xpug.toolkit.http.*;
 
 
 public class Main {
 	private static final String DEVELOPMENT_DATABASE_URL = "postgres://myproject:secret@localhost:5432/myproject_development";
 	private static final String DEFAULT_PORT = "8080";
-	
+
 	public static void main(String[] args) {
 		DatabaseConfiguration configuration = new DatabaseConfiguration(getDatabaseUrl());
-		Database database = new Database(configuration);
-		HelloWorldServlet servlet = new HelloWorldServlet(database);
+		HelloWorldServlet servlet = new HelloWorldServlet(configuration);
 		ReusableJettyApp app = new ReusableJettyApp(servlet);
 		app.start(getPort(), "src/main/webapp");
 	}
-	
+
 	private static int getPort() {
 		return valueOf(getenv("PORT", DEFAULT_PORT));
 	}
