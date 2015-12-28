@@ -1,5 +1,13 @@
 package it.xpug.todolist;
 
-public interface TodoListRepository {
+import it.xpug.toolkit.db.*;
+
+public class TodoListRepository {
+
+	public TodoListRepository(Database database) {
+    }
+
+	public void add(TodoList todoList) {
+    }
 
 }

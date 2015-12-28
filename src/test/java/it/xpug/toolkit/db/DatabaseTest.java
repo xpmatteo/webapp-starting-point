@@ -9,7 +9,7 @@ import org.junit.*;
 
 public class DatabaseTest {
 
-	private static final String TEST_DATABASE_URL = "postgres://myproject:secret@localhost:5432/myproject_test";
+	public static final String TEST_DATABASE_URL = "postgres://myproject:secret@localhost:5432/myproject_test";
 	private DatabaseConfiguration configuration;
 	private Database database;
 
@@ -33,7 +33,7 @@ public class DatabaseTest {
 		String sql = "select 3 + 4";
 		assertEquals(7, database.selectOneValue(sql));
 	}
-	
+
 	@Test(expected=RuntimeException.class)
 	public void selectNonExistentValue() throws Exception {
 		String sql = "select * from prova";
