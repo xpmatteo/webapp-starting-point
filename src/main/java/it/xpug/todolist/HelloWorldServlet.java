@@ -1,4 +1,4 @@
-package it.xpug.helloworld;
+package it.xpug.todolist;
 
 import it.xpug.toolkit.db.*;
 import it.xpug.toolkit.html.*;

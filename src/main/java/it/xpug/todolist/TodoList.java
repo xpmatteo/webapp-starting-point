@@ -1,4 +1,4 @@
-package it.xpug.helloworld;
+package it.xpug.todolist;
 
 public class TodoList {
 

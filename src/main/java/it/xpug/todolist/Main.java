@@ -1,4 +1,4 @@
-package it.xpug.helloworld;
+package it.xpug.todolist;
 
 import static java.lang.Integer.*;
 import it.xpug.toolkit.db.*;
