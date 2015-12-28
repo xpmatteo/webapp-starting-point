@@ -11,6 +11,8 @@ import javax.servlet.http.*;
 
 public class HelloWorldServlet extends HttpServlet {
 
+	private List<TodoList> todoLists = Collections.synchronizedList(new ArrayList<>());
+
 	public HelloWorldServlet(DatabaseConfiguration configuration) {
     }
 
@@ -19,13 +21,13 @@ public class HelloWorldServlet extends HttpServlet {
 		response.setContentType("text/html");
 
 		if (request.getMethod().equals("POST")) {
-			List<TodoList> todoLists = new ArrayList<>();
 			new TodoListsController(todoLists).onCreateNewList(request.getParameter("name"));
 			response.sendRedirect("/");
 			return;
 		}
 
 		TemplateView view = new TemplateView("index.ftl");
+		view.put("todoLists", todoLists);
 		PrintWriter writer = response.getWriter();
 		writer.write(view.toHtml());
 		writer.close();

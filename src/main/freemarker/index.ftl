@@ -2,10 +2,20 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Event-Sourced Todo List</title>
+    <title>My Lists</title>
   </head>
   <body>
-    <h1>Todo Lists!</h1>
+    <h1>My lists</h1>
+
+    <ul>
+      <#list todoLists as todoList>
+        <li>
+          ${todoList.name}
+        </li>
+      </#list>
+    </ul>
+
+    <hr>
 
     <form action="/todolists" method="post">
       <p>
