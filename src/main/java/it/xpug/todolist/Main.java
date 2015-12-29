@@ -11,7 +11,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		DatabaseConfiguration configuration = new DatabaseConfiguration(getDatabaseUrl());
-		HelloWorldServlet servlet = new HelloWorldServlet(configuration);
+		TodoListServlet servlet = new TodoListServlet(configuration);
 		ReusableJettyApp app = new ReusableJettyApp(servlet);
 		app.start(getPort(), "src/main/webapp");
 	}

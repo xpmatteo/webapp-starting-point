@@ -4,18 +4,17 @@ import it.xpug.toolkit.db.*;
 import it.xpug.toolkit.html.*;
 
 import java.io.*;
-import java.util.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.saasovation.common.domain.model.*;
 
-public class HelloWorldServlet extends HttpServlet {
+public class TodoListServlet extends HttpServlet {
 
 	private DatabaseConfiguration configuration;
 
-	public HelloWorldServlet(DatabaseConfiguration configuration) {
+	public TodoListServlet(DatabaseConfiguration configuration) {
 		this.configuration = configuration;
     }
 
@@ -26,6 +25,7 @@ public class HelloWorldServlet extends HttpServlet {
 
 		if (request.getMethod().equals("POST")) {
 			TodoListsMainPageProjection projection = new TodoListsMainPageProjection(database);
+			DomainEventPublisher.instance().reset();
 			DomainEventPublisher.instance().subscribe(projection);
 			new TodoListsController().onCreateNewList(request.getParameter("name"));
 			response.sendRedirect("/");
