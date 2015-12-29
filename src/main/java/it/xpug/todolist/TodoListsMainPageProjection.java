@@ -15,7 +15,7 @@ public class TodoListsMainPageProjection implements DomainEventSubscriber<TodoLi
 	@Override
     public void handleEvent(TodoListCreatedEvent todoListCreatedEvent) {
 		String sql = "insert into todo_lists_main_page_projection (name) values (?)";
-		database.execute(sql , todoListCreatedEvent.getName());
+		database.execute(sql, todoListCreatedEvent.getName());
     }
 
 	@Override

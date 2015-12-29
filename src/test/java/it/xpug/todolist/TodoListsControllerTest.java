@@ -19,22 +19,8 @@ public class TodoListsControllerTest implements DomainEventSubscriber<DomainEven
     }
 
 	@Test
-	public void createNewTodoList() {
-
-		List<TodoList> todoLists = new ArrayList<>();
-
-		TodoListsController controller = new TodoListsController(todoLists);
-		controller.onCreateNewList("pippo");
-
-		assertEquals(1, todoLists.size());
-		assertEquals("pippo", todoLists.get(0).getName());
-	}
-
-	@Test
 	public void createNewTodoListWithEvents() {
-		List<TodoList> todoLists = new ArrayList<>();
-
-		TodoListsController controller = new TodoListsController(todoLists);
+		TodoListsController controller = new TodoListsController();
 		controller.onCreateNewList("pippo");
 
 		assertEquals(1, handledEvents.size());

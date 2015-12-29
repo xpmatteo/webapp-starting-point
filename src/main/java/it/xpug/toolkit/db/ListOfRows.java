@@ -1,5 +1,7 @@
 package it.xpug.toolkit.db;
 
+import static java.util.Collections.*;
+
 import java.util.*;
 
 public class ListOfRows {
@@ -22,5 +24,9 @@ public class ListOfRows {
 	public Map<String, Object> get(int rowIndex) {
 		return rows.get(rowIndex);
 	}
-	
+
+	public Collection<Map<String, Object>> toCollection() {
+		return unmodifiableCollection(rows);
+	}
+
 }

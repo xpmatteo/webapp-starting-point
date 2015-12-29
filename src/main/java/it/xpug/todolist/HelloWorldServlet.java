@@ -9,10 +9,11 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import com.saasovation.common.domain.model.*;
+
 public class HelloWorldServlet extends HttpServlet {
 
 	private DatabaseConfiguration configuration;
-	private List<TodoList> todoLists = Collections.synchronizedList(new ArrayList<>());
 
 	public HelloWorldServlet(DatabaseConfiguration configuration) {
 		this.configuration = configuration;
@@ -20,16 +21,19 @@ public class HelloWorldServlet extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Database database = new Database(configuration);
 		response.setContentType("text/html");
 
 		if (request.getMethod().equals("POST")) {
-			new TodoListsController(todoLists).onCreateNewList(request.getParameter("name"));
+			TodoListsMainPageProjection projection = new TodoListsMainPageProjection(database);
+			DomainEventPublisher.instance().subscribe(projection);
+			new TodoListsController().onCreateNewList(request.getParameter("name"));
 			response.sendRedirect("/");
 			return;
 		}
 
 		TemplateView view = new TemplateView("index.ftl");
-		view.put("todoLists", todoLists);
+		view.put("todoLists", database.select("select * from todo_lists_main_page_projection").toCollection());
 		PrintWriter writer = response.getWriter();
 		writer.write(view.toHtml());
 		writer.close();
