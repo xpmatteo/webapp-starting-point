@@ -10,7 +10,7 @@
     <ul>
       <#list todoLists as todoList>
         <li>
-          ${todoList.name}
+          <a href='/todolists/${todoList.id}'>${todoList.name}</a>
         </li>
       </#list>
     </ul>

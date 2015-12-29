@@ -32,6 +32,14 @@ public class TodoListServlet extends HttpServlet {
 			return;
 		}
 
+		if (request.getRequestURI().matches("/todolists/\\d+")) {
+			TemplateView view = new TemplateView("todo_list.ftl");
+			view.put("todoList", database.select("select * from todo_lists_main_page_projection where id = 1").get(0));
+			PrintWriter writer = response.getWriter();
+			writer.write(view.toHtml());
+			writer.close();
+		}
+
 		TemplateView view = new TemplateView("index.ftl");
 		view.put("todoLists", database.select("select * from todo_lists_main_page_projection").toCollection());
 		PrintWriter writer = response.getWriter();
