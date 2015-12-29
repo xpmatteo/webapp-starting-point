@@ -23,7 +23,8 @@ public class TodoListServlet extends HttpServlet {
 		Database database = new Database(configuration);
 		response.setContentType("text/html");
 
-		if (request.getMethod().equals("POST")) {
+		WebRequest webRequest = new WebRequest(request);
+		if (webRequest.matches("/todolists/?") && request.getMethod().equals("POST")) {
 			TodoListsMainPageProjection projection = new TodoListsMainPageProjection(database);
 			DomainEventPublisher.instance().reset();
 			DomainEventPublisher.instance().subscribe(projection);
@@ -32,9 +33,10 @@ public class TodoListServlet extends HttpServlet {
 			return;
 		}
 
-		if (request.getRequestURI().matches("/todolists/\\d+")) {
+		if (webRequest.matches("/todolists/(\\d+)")) {
 			TemplateView view = new TemplateView("todo_list.ftl");
-			view.put("todoList", database.select("select * from todo_lists_main_page_projection where id = 1").get(0));
+			ListOfRows rows = database.select("select * from todo_lists_main_page_projection where id = ?", webRequest.getUriParameterAsInteger(1));
+			view.put("todoList", rows.get(0));
 			PrintWriter writer = response.getWriter();
 			writer.write(view.toHtml());
 			writer.close();

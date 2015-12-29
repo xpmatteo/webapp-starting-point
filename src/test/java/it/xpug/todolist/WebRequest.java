@@ -22,4 +22,8 @@ public class WebRequest {
 	    return matcher.group(index);
     }
 
+	public int getUriParameterAsInteger(int index) {
+	    return Integer.valueOf(getUriParameter(index));
+    }
+
 }
