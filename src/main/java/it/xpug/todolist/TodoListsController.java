@@ -14,7 +14,7 @@ public class TodoListsController {
 
 	public void onCreateNewList(String name) {
 		todoLists.add(new TodoList(name));
-		DomainEventPublisher.instance().publish(new TodoListCreatedEvent());
+		DomainEventPublisher.instance().publish(new TodoListCreatedEvent("foobar"));
     }
 
 }

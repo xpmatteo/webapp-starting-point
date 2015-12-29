@@ -32,18 +32,15 @@ public class TodoListsControllerTest implements DomainEventSubscriber<DomainEven
 		assertEquals("pippo", todoLists.get(0).getName());
 	}
 
-
-
 	@Test
 	public void createNewTodoListWithEvents() {
 		List<TodoList> todoLists = new ArrayList<>();
-
 
 		TodoListsController controller = new TodoListsController(todoLists);
 		controller.onCreateNewList("pippo");
 
 		assertEquals(1, handledEvents.size());
-		assertThat(handledEvents, hasItem(equalTo(new TodoListCreatedEvent())));
+		assertThat(handledEvents, hasItem(equalTo(new TodoListCreatedEvent("pippo"))));
 	}
 
 	@Override

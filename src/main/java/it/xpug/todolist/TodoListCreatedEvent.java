@@ -6,6 +6,16 @@ import com.saasovation.common.domain.model.*;
 
 public class TodoListCreatedEvent implements DomainEvent {
 
+	private String name;
+
+	public TodoListCreatedEvent(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+	    return name;
+    }
+
 	@Override
     public int eventVersion() {
 	    return 0;
