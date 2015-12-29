@@ -20,8 +20,6 @@ public class HelloWorldServlet extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TodoListRepository repository = new TodoListRepository(new Database(configuration));
-
 		response.setContentType("text/html");
 
 		if (request.getMethod().equals("POST")) {

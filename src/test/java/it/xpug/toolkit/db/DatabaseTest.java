@@ -1,31 +1,19 @@
 package it.xpug.toolkit.db;
 
 import static org.junit.Assert.*;
-
-import java.sql.*;
+import it.xpug.todolist.*;
 
 import org.junit.*;
 
 
 public class DatabaseTest {
 
-	public static final String TEST_DATABASE_URL = "postgres://myproject:secret@localhost:5432/myproject_test";
-	private DatabaseConfiguration configuration;
-	private Database database;
+	private TestDatabase database = new TestDatabase();
 
 	@Before
 	public void setUp() throws Exception {
-		configuration = new DatabaseConfiguration(TEST_DATABASE_URL);
-		database = new Database(configuration);
 		database.execute("drop table if exists prova");
 		database.execute("create table prova( id serial, name varchar(255) );");
-	}
-
-
-	@Test
-	public void configurationReturnsAConnection() throws Exception {
-		Connection connection = configuration.getConnection();
-		assertNotNull(connection);
 	}
 
 	@Test
