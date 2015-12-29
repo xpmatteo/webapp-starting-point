@@ -8,22 +8,24 @@ public class TodoListCreatedEventTest {
 
 	@Test
     public void testEquals() throws Exception {
-	    TodoListCreatedEvent base = new TodoListCreatedEvent("zero");
-	    TodoListCreatedEvent same = new TodoListCreatedEvent("zero");
-	    TodoListCreatedEvent differentName = new TodoListCreatedEvent("uno");
+	    TodoListCreatedEvent base = new TodoListCreatedEvent("x", "zero");
+	    TodoListCreatedEvent same = new TodoListCreatedEvent("x", "zero");
+	    TodoListCreatedEvent differentId = new TodoListCreatedEvent("Y", "zero");
+	    TodoListCreatedEvent differentName = new TodoListCreatedEvent("x", "uno");
 
 	    assertNotEquals(base, null);
 	    assertNotEquals(base, "not an event");
 	    assertEquals(base, base);
 	    assertEquals(base, same);
+	    assertNotEquals(base, differentId);
 	    assertNotEquals(base, differentName);
     }
 
 
 	@Test
     public void testHashCode() throws Exception {
-	    TodoListCreatedEvent base = new TodoListCreatedEvent("foo");
-	    TodoListCreatedEvent same = new TodoListCreatedEvent("foo");
+	    TodoListCreatedEvent base = new TodoListCreatedEvent("x", "foo");
+	    TodoListCreatedEvent same = new TodoListCreatedEvent("x", "foo");
 
 	    assertEquals(base.hashCode(), same.hashCode());
     }

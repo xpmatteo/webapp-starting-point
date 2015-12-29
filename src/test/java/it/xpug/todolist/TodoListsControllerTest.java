@@ -10,7 +10,6 @@ import org.junit.*;
 import com.saasovation.common.domain.model.*;
 
 public class TodoListsControllerTest implements DomainEventSubscriber<DomainEvent> {
-
 	private List<DomainEvent> handledEvents = new ArrayList<>();
 
 	@Before
@@ -24,7 +23,8 @@ public class TodoListsControllerTest implements DomainEventSubscriber<DomainEven
 		controller.onCreateNewList("pippo");
 
 		assertEquals(1, handledEvents.size());
-		assertThat(handledEvents, hasItem(equalTo(new TodoListCreatedEvent("pippo"))));
+		TodoListCreatedEvent domainEvent = (TodoListCreatedEvent) handledEvents.get(0);
+		assertEquals("pippo", domainEvent.getName());
 	}
 
 	@Test@Ignore

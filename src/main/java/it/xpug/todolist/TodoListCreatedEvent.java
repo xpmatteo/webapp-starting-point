@@ -9,10 +9,6 @@ public class TodoListCreatedEvent implements DomainEvent {
 	private String name;
 	private String id;
 
-	public TodoListCreatedEvent(String name) {
-		this.name = name;
-	}
-
 	public TodoListCreatedEvent(String id, String name) {
 		this.id = id;
 		this.name = name;
@@ -41,17 +37,17 @@ public class TodoListCreatedEvent implements DomainEvent {
 	    if (!(obj instanceof TodoListCreatedEvent))
 	    	return false;
 	    TodoListCreatedEvent other = (TodoListCreatedEvent) obj;
-	    return other.name.equals(this.name);
+	    return other.name.equals(this.name) && other.id.equals(this.id);
 	}
 
 	@Override
 	public int hashCode() {
-	    return name.hashCode();
+	    return id.hashCode();
 	}
 
 	@Override
 	public String toString() {
-	    return String.format("TodoListCreatedEvent(%s)", name);
+	    return String.format("TodoListCreatedEvent(%s, %s)", id, name);
 	}
 
 }
