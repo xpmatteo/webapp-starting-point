@@ -33,16 +33,16 @@ public class TodoListServlet extends HttpServlet {
 			return;
 		}
 
-		if (webRequest.matches("/todolists/(\\d+)") && request.getMethod().equals("POST")) {
+		if (webRequest.matches("/todolists/([-0-9a-fA-F]{36})") && request.getMethod().equals("POST")) {
 			String id = webRequest.getUriParameter(1);
 			String newName = request.getParameter("new_name");
 			new TodoListsController().onRenameList(id, newName);
 			response.sendRedirect(request.getRequestURI());
 		}
 
-		if (webRequest.matches("/todolists/(\\d+)")) {
+		if (webRequest.matches("/todolists/([-0-9a-fA-F]{36})")) {
 			TemplateView view = new TemplateView("todo_list.ftl");
-			ListOfRows rows = database.select("select * from todo_lists_main_page_projection where id = ?", webRequest.getUriParameterAsInteger(1));
+			ListOfRows rows = database.select("select * from todo_lists_main_page_projection where id = ?", webRequest.getUriParameter(1));
 			view.put("todoList", rows.get(0));
 			PrintWriter writer = response.getWriter();
 			writer.write(view.toHtml());
