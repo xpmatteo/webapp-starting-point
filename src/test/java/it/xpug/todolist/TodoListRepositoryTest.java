@@ -17,7 +17,7 @@ public class TodoListRepositoryTest {
 		repository = new TodoListRepository(database);
 	}
 
-	@Test
+	@Test@Ignore
     public void createNewList() throws Exception {
 		TodoList todoList = new TodoList("Foobar");
 
