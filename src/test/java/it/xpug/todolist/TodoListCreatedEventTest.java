@@ -19,4 +19,12 @@ public class TodoListCreatedEventTest {
 	    assertNotEquals(base, differentName);
     }
 
+
+	@Test
+    public void testHashCode() throws Exception {
+	    TodoListCreatedEvent base = new TodoListCreatedEvent("foo");
+	    TodoListCreatedEvent same = new TodoListCreatedEvent("foo");
+
+	    assertEquals(base.hashCode(), same.hashCode());
+    }
 }

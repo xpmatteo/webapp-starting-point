@@ -35,6 +35,11 @@ public class TodoListCreatedEvent implements DomainEvent {
 	}
 
 	@Override
+	public int hashCode() {
+	    return name.hashCode();
+	}
+
+	@Override
 	public String toString() {
 	    return String.format("TodoListCreatedEvent(%s)", name);
 	}
