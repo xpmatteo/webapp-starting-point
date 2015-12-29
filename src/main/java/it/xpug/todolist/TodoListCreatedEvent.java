@@ -28,7 +28,15 @@ public class TodoListCreatedEvent implements DomainEvent {
 
 	@Override
 	public boolean equals(Object obj) {
-	    return obj instanceof TodoListCreatedEvent;
+	    if (!(obj instanceof TodoListCreatedEvent))
+	    	return false;
+	    TodoListCreatedEvent other = (TodoListCreatedEvent) obj;
+	    return other.name.equals(this.name);
+	}
+
+	@Override
+	public String toString() {
+	    return String.format("TodoListCreatedEvent(%s)", name);
 	}
 
 }
