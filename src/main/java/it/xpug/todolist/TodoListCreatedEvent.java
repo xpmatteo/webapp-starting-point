@@ -7,13 +7,23 @@ import com.saasovation.common.domain.model.*;
 public class TodoListCreatedEvent implements DomainEvent {
 
 	private String name;
+	private String id;
 
 	public TodoListCreatedEvent(String name) {
 		this.name = name;
 	}
 
+	public TodoListCreatedEvent(String id, String name) {
+		this.id = id;
+		this.name = name;
+    }
+
 	public String getName() {
 	    return name;
+    }
+
+	public String getId() {
+	    return id;
     }
 
 	@Override

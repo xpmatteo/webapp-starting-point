@@ -12,4 +12,8 @@ public class TodoList {
 	    return name;
     }
 
+	public void rename(String newName) {
+		this.name = newName;
+    }
+
 }

@@ -8,4 +8,8 @@ public class TodoListsController {
 		DomainEventPublisher.instance().publish(new TodoListCreatedEvent(name));
     }
 
+	public void onRenameList(String id, String newName) {
+		DomainEventPublisher.instance().publish(new TodoListRenamedEvent(id, newName));
+    }
+
 }

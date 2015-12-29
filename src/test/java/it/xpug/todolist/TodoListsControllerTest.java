@@ -27,6 +27,21 @@ public class TodoListsControllerTest implements DomainEventSubscriber<DomainEven
 		assertThat(handledEvents, hasItem(equalTo(new TodoListCreatedEvent("pippo"))));
 	}
 
+	@Test@Ignore
+	public void renameTodoList() {
+		InMemoryTodoListRepository repository = new InMemoryTodoListRepository();
+		DomainEventPublisher.instance().subscribe(repository);
+
+		TodoListsController controller = new TodoListsController();
+		controller.onRenameList("123", "pippo");
+
+		assertEquals(1, handledEvents.size());
+		assertThat(handledEvents, hasItem(equalTo(new TodoListRenamedEvent("123", "pippo"))));
+
+		TodoList foundTodoList = repository.find("123");
+		assertEquals("pippo", foundTodoList.getName());
+	}
+
 	@Override
     public void handleEvent(DomainEvent aDomainEvent) {
 		this.handledEvents.add(aDomainEvent);
@@ -36,6 +51,4 @@ public class TodoListsControllerTest implements DomainEventSubscriber<DomainEven
     public Class<DomainEvent> subscribedToEventType() {
 	    return DomainEvent.class;
     }
-
-
 }

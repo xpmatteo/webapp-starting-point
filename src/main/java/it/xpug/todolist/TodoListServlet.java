@@ -33,6 +33,13 @@ public class TodoListServlet extends HttpServlet {
 			return;
 		}
 
+		if (webRequest.matches("/todolists/(\\d+)") && request.getMethod().equals("POST")) {
+			String id = webRequest.getUriParameter(1);
+			String newName = request.getParameter("new_name");
+			new TodoListsController().onRenameList(id, newName);
+			response.sendRedirect(request.getRequestURI());
+		}
+
 		if (webRequest.matches("/todolists/(\\d+)")) {
 			TemplateView view = new TemplateView("todo_list.ftl");
 			ListOfRows rows = database.select("select * from todo_lists_main_page_projection where id = ?", webRequest.getUriParameterAsInteger(1));
