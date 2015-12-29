@@ -34,18 +34,13 @@ createuser --no-superuser --createdb --no-createrole $dbuser || true
 # create databases
 for db in $db_development $db_test; do
 	echo doing $db
-	
+
 	dropdb --if-exists $db
 	createdb $db
 	psql -tAc "ALTER USER $dbuser WITH PASSWORD '$dbpassword'" $db
 
 	# load all sql scripts in database
-	cat $src/???_*.sql $src/seed.sql | psql $db
-
-	# grant all privileges on all tables to our user
-	for table in $(psql -tAc "select relname from pg_stat_user_tables" $db); do
-	  psql -tAc "GRANT ALL PRIVILEGES ON TABLE $table TO $dbuser " $db
-	done
+	PASSWORD="$dbpassword" cat $src/???_*.sql $src/seed.sql | psql $db --username=${dbuser}
 done
 
 echo "OK"
