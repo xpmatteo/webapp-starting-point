@@ -4,11 +4,11 @@ import com.saasovation.common.domain.model.*;
 
 import it.xpug.toolkit.db.*;
 
-public class TodoListsMainPageProjection implements DomainEventSubscriber<DomainEvent> {
+public class TodoListMainPageProjection implements DomainEventSubscriber<DomainEvent> {
 
 	private Database database;
 
-	public TodoListsMainPageProjection(Database database) {
+	public TodoListMainPageProjection(Database database) {
 		this.database = database;
     }
 

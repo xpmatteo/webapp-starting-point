@@ -8,7 +8,7 @@ import org.junit.*;
 public class TodoListsMainPageProjectionTest {
 
 	Database database = new TestDatabase();
-	TodoListsMainPageProjection projection = new TodoListsMainPageProjection(database);
+	TodoListMainPageProjection projection = new TodoListMainPageProjection(database);
 
 	@Before
     public void setUp() throws Exception {

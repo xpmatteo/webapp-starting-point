@@ -18,16 +18,21 @@ public class TodoListServlet extends HttpServlet {
 		this.configuration = configuration;
     }
 
+	InMemoryTodoListRepository repository = new InMemoryTodoListRepository();
+
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Database database = new Database(configuration);
 		response.setContentType("text/html");
 
+		TodoListMainPageProjection projection = new TodoListMainPageProjection(database);
+
+		DomainEventPublisher.instance().reset();
+		DomainEventPublisher.instance().subscribe(projection);
+		DomainEventPublisher.instance().subscribe(repository);
+
 		WebRequest webRequest = new WebRequest(request);
 		if (webRequest.matches("/todolists/?") && request.getMethod().equals("POST")) {
-			TodoListsMainPageProjection projection = new TodoListsMainPageProjection(database);
-			DomainEventPublisher.instance().reset();
-			DomainEventPublisher.instance().subscribe(projection);
 			new TodoListsController().onCreateNewList(request.getParameter("name"));
 			response.sendRedirect("/");
 			return;
