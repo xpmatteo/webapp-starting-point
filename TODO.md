@@ -11,4 +11,3 @@
 
 ## Il commit e rollback da database dovrebbero essere gestiti da fuori
 
-## Usare un layout per la view

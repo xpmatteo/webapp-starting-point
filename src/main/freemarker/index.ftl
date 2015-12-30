@@ -1,30 +1,19 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>My Lists</title>
-  </head>
-  <body>
-    <h1>My lists</h1>
+<#include "layout.ftl">
+<@layout "My Lists">
+  <ul>
+    <#list todoLists as todoList>
+      <li>
+        <a href='/todolists/${todoList.id}'>${todoList.name}</a>
+      </li>
+    </#list>
+  </ul>
 
-    <ul>
-      <#list todoLists as todoList>
-        <li>
-          <a href='/todolists/${todoList.id}'>${todoList.name}</a>
-        </li>
-      </#list>
-    </ul>
+  <hr>
 
-    <hr>
-
-    <form action="/todolists" method="post">
-      <p>
-        <label for="name">Name</label>
-        <br>
-        <input type="text/submit/hidden/button" name="name" value="" id="name">
-      </p>
-      <p><input type="submit" value="Create new Todolist &rarr;"></p>
-    </form>
-  </body>
-</html>
-
+  <form action="/todolists" method="post">
+    <p>
+      <input type="text" name="name" value="" placeholder="List Name" id="name">
+      <input type="submit" value="Create new">
+    </p>
+  </form>
+</@layout>

@@ -1,5 +1,5 @@
-
-
+<#include "layout.ftl">
+<@layout "My Lists: ${todoList.name}">
 <h2>${todoList.name}</h2>
 
 <form action="/todolists/${todoList.id}" method="post">
@@ -10,3 +10,4 @@
     <input type="submit" value="Change &rarr;">
   </p>
 </form>
+</@layout>
