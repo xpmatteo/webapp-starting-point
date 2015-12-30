@@ -18,15 +18,15 @@ public class TodoListServlet extends HttpServlet {
 		this.configuration = configuration;
     }
 
-	InMemoryTodoListRepository repository = new InMemoryTodoListRepository();
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Database database = new Database(configuration);
 		response.setContentType("text/html");
 
-		TodoListMainPageProjection projection = new TodoListMainPageProjection(database);
+		Database database = new Database(configuration);
 
+		TodoListMainPageProjection projection = new TodoListMainPageProjection(database);
+		EventStoreTodoListRepository repository = new EventStoreTodoListRepository(database);
 		DomainEventPublisher.instance().reset();
 		DomainEventPublisher.instance().subscribe(projection);
 		DomainEventPublisher.instance().subscribe(repository);

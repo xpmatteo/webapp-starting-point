@@ -42,7 +42,6 @@ public class EventStoreTodoListRepositoryTest {
 	    assertEquals("{\"newName\":\"blah\",\"id\":\"888\"}", row.get("params").toString());
     }
 
-
 	@Test
     public void create() throws Exception {
 	    repository.handleEvent(new TodoListCreatedEvent("1111", "a list"));
