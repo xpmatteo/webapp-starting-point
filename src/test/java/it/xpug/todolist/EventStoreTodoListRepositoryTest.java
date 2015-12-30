@@ -39,7 +39,7 @@ public class EventStoreTodoListRepositoryTest {
 	    assertEquals("a list", foundTodoList.getName());
     }
 
-	@Test@Ignore
+	@Test
     public void notFound() throws Exception {
 	    repository.handleEvent(new TodoListCreatedEvent("list-id", "a list"));
 	    assertNull(repository.find("BAD ID"));

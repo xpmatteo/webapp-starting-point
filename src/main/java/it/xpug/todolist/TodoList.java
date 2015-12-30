@@ -16,4 +16,8 @@ public class TodoList {
 		this.name = newName;
     }
 
+	@Override
+	public String toString() {
+	    return String.format("TodoList(%s)", name);
+	}
 }

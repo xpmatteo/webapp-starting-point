@@ -17,10 +17,12 @@ public class EventStoreTodoListRepository implements DomainEventSubscriber<Domai
     }
 
 	public TodoList find(String id) {
-		ListOfRows rows = database.select("select * from domain_events");
+		ListOfRows rows = database.select("select * from domain_events where entityId = ?", id);
+		if (0 == rows.size())
+			return null;
+
 		Map<String, Object> row = rows.get(0);
 		JSONObject json = new JSONObject(row.get("params").toString());
-
 	    return new TodoList(json.getString("name"));
     }
 
@@ -29,12 +31,13 @@ public class EventStoreTodoListRepository implements DomainEventSubscriber<Domai
 		if (aDomainEvent instanceof TodoListCreatedEvent) {
 	        TodoListCreatedEvent event = (TodoListCreatedEvent) aDomainEvent;
 
-	        String sql = "insert into domain_events (occurredOn, version, eventType, params) "
-	        		+ "values (?,?,?, cast(? as json))";
+	        String sql = "insert into domain_events (occurredOn, version, eventType, entityId, params) "
+	        		+ "values (?, ?, ?, ?, cast(? as json))";
 			database.execute(sql,
 					new java.sql.Date(event.occurredOn().getTime()),
 					event.eventVersion(),
 					event.getClass().getSimpleName(),
+					event.getId(),
 					JSONObject.wrap(event).toString());
         }
     }
