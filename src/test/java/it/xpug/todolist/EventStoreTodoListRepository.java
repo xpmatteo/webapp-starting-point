@@ -1,5 +1,7 @@
 package it.xpug.todolist;
 
+import java.util.*;
+
 import it.xpug.toolkit.db.*;
 
 import org.json.*;
@@ -12,6 +14,14 @@ public class EventStoreTodoListRepository implements DomainEventSubscriber<Domai
 
 	public EventStoreTodoListRepository(Database database) {
 		this.database = database;
+    }
+
+	public TodoList find(String id) {
+		ListOfRows rows = database.select("select * from domain_events");
+		Map<String, Object> row = rows.get(0);
+		JSONObject json = new JSONObject(row.get("params").toString());
+
+	    return new TodoList(json.getString("name"));
     }
 
 	@Override
@@ -34,8 +44,5 @@ public class EventStoreTodoListRepository implements DomainEventSubscriber<Domai
 	    return DomainEvent.class;
     }
 
-	public TodoList find(String id) {
-	    return null;
-    }
 
 }

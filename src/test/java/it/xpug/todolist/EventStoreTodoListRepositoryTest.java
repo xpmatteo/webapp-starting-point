@@ -19,7 +19,7 @@ public class EventStoreTodoListRepositoryTest {
     }
 
 	@Test
-    public void create() throws Exception {
+    public void createEventDatabaseRow() throws Exception {
 	    repository.handleEvent(new TodoListCreatedEvent("333", "a list"));
 
 	    ListOfRows rows = database.select("select * from domain_events");
@@ -28,9 +28,15 @@ public class EventStoreTodoListRepositoryTest {
 		assertEquals(0, row.get("version"));
 	    assertEquals("TodoListCreatedEvent", row.get("eventtype"));
 	    assertEquals("{\"name\":\"a list\",\"id\":\"333\"}", row.get("params").toString());
+    }
 
-//	    TodoList foundTodoList = repository.find("list-id");
-//	    assertEquals("a list", foundTodoList.getName());
+
+	@Test
+    public void create() throws Exception {
+	    repository.handleEvent(new TodoListCreatedEvent("1111", "a list"));
+
+	    TodoList foundTodoList = repository.find("1111");
+	    assertEquals("a list", foundTodoList.getName());
     }
 
 	@Test@Ignore
