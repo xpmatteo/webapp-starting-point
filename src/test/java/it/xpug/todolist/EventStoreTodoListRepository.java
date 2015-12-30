@@ -28,18 +28,15 @@ public class EventStoreTodoListRepository implements DomainEventSubscriber<Domai
 
 	@Override
     public void handleEvent(DomainEvent aDomainEvent) {
-		if (aDomainEvent instanceof TodoListCreatedEvent) {
-	        TodoListCreatedEvent event = (TodoListCreatedEvent) aDomainEvent;
-
-	        String sql = "insert into domain_events (occurredOn, version, eventType, entityId, params) "
-	        		+ "values (?, ?, ?, ?, cast(? as json))";
-			database.execute(sql,
-					new java.sql.Date(event.occurredOn().getTime()),
-					event.eventVersion(),
-					event.getClass().getSimpleName(),
-					event.getId(),
-					JSONObject.wrap(event).toString());
-        }
+		String sql = "insert into domain_events (occurredOn, version, eventType, entityId, params) "
+				+ "values (?, ?, ?, ?, cast(? as json))";
+		JSONObject json = (JSONObject) JSONObject.wrap(aDomainEvent);
+		database.execute(sql,
+				new java.sql.Date(aDomainEvent.occurredOn().getTime()),
+				aDomainEvent.eventVersion(),
+				aDomainEvent.getClass().getSimpleName(),
+				json.getString("id"),
+				json.toString());
     }
 
 	@Override

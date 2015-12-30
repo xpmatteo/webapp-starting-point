@@ -4,7 +4,7 @@ create table domain_events (
   occurredOn timestamp not null,
   version int not null,
   eventType varchar(255) not null,
-  entityId varchar(36) not null unique,
+  entityId varchar(36) not null,
   params json not null
 );
 
