@@ -57,9 +57,10 @@ public class EventStoreTodoListRepositoryTest {
 	    assertNull(repository.find("BAD ID"));
     }
 
-	@Test@Ignore
+	@Test
     public void createAndRename() throws Exception {
 	    repository.handleEvent(new TodoListCreatedEvent("111", "old name"));
+	    repository.handleEvent(new TodoListRenamedEvent("111", "some other name"));
 	    repository.handleEvent(new TodoListRenamedEvent("111", "new name"));
 
 	    TodoList foundTodoList = repository.find("111");

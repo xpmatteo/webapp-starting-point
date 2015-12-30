@@ -17,13 +17,25 @@ public class EventStoreTodoListRepository implements DomainEventSubscriber<Domai
     }
 
 	public TodoList find(String id) {
-		ListOfRows rows = database.select("select * from domain_events where entityId = ?", id);
+		String sql = "select * from domain_events where entityId = ? order by id asc";
+		ListOfRows rows = database.select(sql, id);
 		if (0 == rows.size())
 			return null;
 
-		Map<String, Object> row = rows.get(0);
-		JSONObject json = new JSONObject(row.get("params").toString());
-	    return new TodoList(json.getString("name"));
+		TodoList todoList = null;
+		for (Map<String, Object> row : rows.toCollection()) {
+			JSONObject params = new JSONObject(row.get("params").toString());
+			switch((String) row.get("eventtype")) {
+			case "TodoListCreatedEvent":
+				todoList = new TodoList(params.getString("name"));
+				break;
+			case "TodoListRenamedEvent":
+				todoList.rename(params.getString("newName"));
+				break;
+			}
+        }
+
+		return todoList;
     }
 
 	@Override
