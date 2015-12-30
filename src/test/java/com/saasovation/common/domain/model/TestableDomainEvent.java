@@ -18,7 +18,7 @@ import java.util.Date;
 
 import com.saasovation.common.domain.model.DomainEvent;
 
-public class TestableDomainEvent implements DomainEvent {
+public class TestableDomainEvent extends DomainEvent {
 
     private int eventVersion;
     private long id;

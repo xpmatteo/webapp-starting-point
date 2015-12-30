@@ -12,13 +12,21 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+//   MODIFIED BY MATTEO VACCARI
+
 package com.saasovation.common.domain.model;
 
 import java.util.Date;
 
-public interface DomainEvent {
+public abstract class DomainEvent {
 
-    public int eventVersion();
+	private Date occurredOn = new Date();
 
-    public Date occurredOn();
+    public int eventVersion() {
+    	return 0;
+    }
+
+    public Date occurredOn() {
+    	return occurredOn;
+    }
 }

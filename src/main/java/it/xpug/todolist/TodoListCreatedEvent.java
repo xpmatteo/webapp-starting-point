@@ -1,15 +1,14 @@
 package it.xpug.todolist;
 
-import java.util.*;
-
 import com.saasovation.common.domain.model.*;
 
-public class TodoListCreatedEvent implements DomainEvent {
+public class TodoListCreatedEvent extends DomainEvent {
 
-	private String name;
 	private String id;
+	private String name;
 
 	public TodoListCreatedEvent(String id, String name) {
+		super();
 		this.id = id;
 		this.name = name;
     }
@@ -20,16 +19,6 @@ public class TodoListCreatedEvent implements DomainEvent {
 
 	public String getId() {
 	    return id;
-    }
-
-	@Override
-    public int eventVersion() {
-	    return 0;
-    }
-
-	@Override
-    public Date occurredOn() {
-	    return null;
     }
 
 	@Override

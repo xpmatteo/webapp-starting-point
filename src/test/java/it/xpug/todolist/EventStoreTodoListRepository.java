@@ -2,6 +2,8 @@ package it.xpug.todolist;
 
 import it.xpug.toolkit.db.*;
 
+import org.json.*;
+
 import com.saasovation.common.domain.model.*;
 
 public class EventStoreTodoListRepository implements DomainEventSubscriber<DomainEvent> {
@@ -19,7 +21,11 @@ public class EventStoreTodoListRepository implements DomainEventSubscriber<Domai
 
 	        String sql = "insert into domain_events (occurredOn, version, eventType, params) "
 	        		+ "values (?,?,?, cast(? as json))";
-			database.execute(sql, event.occurredOn(), event.eventVersion(), event.getClass().getSimpleName(), "{}");
+			database.execute(sql,
+					new java.sql.Date(event.occurredOn().getTime()),
+					event.eventVersion(),
+					event.getClass().getSimpleName(),
+					JSONObject.wrap(event).toString());
         }
     }
 
