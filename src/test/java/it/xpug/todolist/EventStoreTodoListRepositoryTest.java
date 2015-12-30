@@ -1,19 +1,29 @@
 package it.xpug.todolist;
 
 import static org.junit.Assert.*;
+import it.xpug.toolkit.db.*;
 
 import org.junit.*;
 
 public class EventStoreTodoListRepositoryTest {
 
-	EventStoreTodoListRepository repository = new EventStoreTodoListRepository();
+	private Database database = new TestDatabase();
+	private EventStoreTodoListRepository repository = new EventStoreTodoListRepository(database);
+
+	@Before
+    public void setUp() throws Exception {
+	    database.execute("truncate domain_events");
+    }
 
 	@Test
     public void create() throws Exception {
 	    repository.handleEvent(new TodoListCreatedEvent("list-id", "a list"));
 
-	    TodoList foundTodoList = repository.find("list-id");
-	    assertEquals("a list", foundTodoList.getName());
+	    ListOfRows rows = database.select("select * from domain_events");
+	    assertEquals(1, rows.size());
+
+//	    TodoList foundTodoList = repository.find("list-id");
+//	    assertEquals("a list", foundTodoList.getName());
     }
 
 	@Test@Ignore
