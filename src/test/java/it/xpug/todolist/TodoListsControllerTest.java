@@ -27,9 +27,10 @@ public class TodoListsControllerTest implements DomainEventSubscriber<DomainEven
 		assertEquals("pippo", domainEvent.getName());
 	}
 
-	@Test@Ignore
+	@Test
 	public void renameTodoList() {
 		InMemoryTodoListRepository repository = new InMemoryTodoListRepository();
+		repository.handleEvent(new TodoListCreatedEvent("123", "pluto"));
 		DomainEventPublisher.instance().subscribe(repository);
 
 		TodoListsController controller = new TodoListsController();
