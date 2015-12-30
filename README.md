@@ -1,13 +1,5 @@
 
-# A simple webapp template
-
-This template can be used to start a new Java web app project, as well as for coding dojos and various exercises.
-
-Examples of fun exercises to try:
-
- * Todo list  (see doc directory)
- * Semaphores
- * Lights Out
+# A To-do-list app to learn CQRS and Event Sourcing
 
 
 ## Import the project in Eclipse with
