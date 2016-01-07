@@ -25,4 +25,15 @@ public class WebRequestTest {
 		assertFalse("should not match pattern", webRequest.matches("/foo/(\\d+)"));
     }
 
+	@Test
+    public void isPost() throws Exception {
+		HttpServletRequest postRequest = mock(HttpServletRequest.class, "post request");
+		HttpServletRequest getRequest = mock(HttpServletRequest.class, "get request");
+	    when(postRequest.getMethod()).thenReturn("POST");
+	    when(getRequest.getMethod()).thenReturn("GET");
+
+	    assertTrue("is post", new WebRequest(postRequest).isPost());
+	    assertFalse("is get", new WebRequest(getRequest).isPost());
+    }
+
 }

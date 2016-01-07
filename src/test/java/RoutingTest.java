@@ -28,17 +28,34 @@ public class RoutingTest {
 
 	@Test
 	public void responseOnSpecificPath() {
-		Consumer<WebRequest> answerFoo = mockAnswer("foo");
-		Consumer<WebRequest> answerBar = mockAnswer("bar");
-		router.onPath("/foo", answerFoo);
-		router.onPath("/bar", answerBar);
 		when(request.matches("/foo")).thenReturn(true);
 		when(request.matches("/bar")).thenReturn(false);
+
+		Consumer<WebRequest> answerFoo = mockAnswer("foo");
+		Consumer<WebRequest> answerBar = mockAnswer("bar");
+		router.onAnyMethod("/foo", answerFoo);
+		router.onAnyMethod("/bar", answerBar);
 
 		router.onRequest(request);
 
 		verify(answerFoo).accept(request);
 		verifyZeroInteractions(answerBar);
+	}
+
+	@Test
+	public void responseOnSpecificPathAndMethod() {
+		when(request.matches("/foo")).thenReturn(true);
+		when(request.isPost()).thenReturn(true);
+
+		Consumer<WebRequest> answerGet = mockAnswer("foo get");
+		Consumer<WebRequest> answerPost = mockAnswer("foo post");
+		router.onPost("/foo", answerPost);
+		router.onAnyMethod("/foo", answerGet);
+
+		router.onRequest(request);
+
+		verifyZeroInteractions(answerGet);
+		verify(answerPost).accept(request);
 	}
 
 }

@@ -26,4 +26,8 @@ public class WebRequest {
 	    return Integer.valueOf(getUriParameter(index));
     }
 
+	public boolean isPost() {
+	    return httpServletRequest.getMethod().equalsIgnoreCase("post");
+    }
+
 }
