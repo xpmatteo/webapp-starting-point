@@ -27,7 +27,7 @@ public class TodoListMainPageProjection implements DomainEventSubscriber<DomainE
 		else if (aDomainEvent instanceof TodoItemCreatedEvent) {
 	        TodoItemCreatedEvent event = (TodoItemCreatedEvent) aDomainEvent;
 			String sql = "insert into todo_items_page_projection (id, todo_list_id, todo_item_text) values (?, ?, ?)";
-			database.execute(sql, event.getTodoItemId(), event.getTodoListId(), event.getTodoItemText());
+			database.execute(sql, event.getId(), event.getTodoListId(), event.getTodoItemText());
         }
 
     }

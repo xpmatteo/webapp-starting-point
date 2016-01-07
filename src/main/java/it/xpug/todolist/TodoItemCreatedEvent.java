@@ -4,13 +4,13 @@ import com.saasovation.common.domain.model.*;
 
 public class TodoItemCreatedEvent extends DomainEvent {
 
+	private String id;
 	private String todoListId;
-	private String todoItemId;
 	private String todoItemText;
 
 	public TodoItemCreatedEvent(String todoListId, String todoItemId, String todoItemText) {
 		this.todoListId = todoListId;
-		this.todoItemId = todoItemId;
+		this.id = todoItemId;
 		this.todoItemText = todoItemText;
     }
 
@@ -22,15 +22,15 @@ public class TodoItemCreatedEvent extends DomainEvent {
 	    return todoListId;
     }
 
-	public String getTodoItemId() {
-	    return todoItemId;
+	public String getId() {
+	    return id;
     }
 
 	@Override
     public int hashCode() {
 	    final int prime = 31;
 	    int result = 1;
-	    result = prime * result + ((todoItemId == null) ? 0 : todoItemId.hashCode());
+	    result = prime * result + ((id == null) ? 0 : id.hashCode());
 	    result = prime * result + ((todoItemText == null) ? 0 : todoItemText.hashCode());
 	    result = prime * result + ((todoListId == null) ? 0 : todoListId.hashCode());
 	    return result;
@@ -45,10 +45,10 @@ public class TodoItemCreatedEvent extends DomainEvent {
 	    if (getClass() != obj.getClass())
 		    return false;
 	    TodoItemCreatedEvent other = (TodoItemCreatedEvent) obj;
-	    if (todoItemId == null) {
-		    if (other.todoItemId != null)
+	    if (id == null) {
+		    if (other.id != null)
 			    return false;
-	    } else if (!todoItemId.equals(other.todoItemId))
+	    } else if (!id.equals(other.id))
 		    return false;
 	    if (todoItemText == null) {
 		    if (other.todoItemText != null)

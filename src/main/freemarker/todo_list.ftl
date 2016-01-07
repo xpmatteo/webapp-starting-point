@@ -12,7 +12,7 @@
 
   <ul id='my-list'>
     <#list todoItems!"" as todoItem>
-        <li>${todoItem.text}</li>
+        <li>${todoItem.todo_item_text}</li>
     </#list>
   </ul>
 

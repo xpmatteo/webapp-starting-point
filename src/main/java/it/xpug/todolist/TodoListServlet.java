@@ -87,11 +87,12 @@ public class TodoListServlet extends HttpServlet {
 
 	private void showSingleList(Database database, WebRequest webRequest, HttpServletResponse response)
             throws IOException {
-	    String sql = "select * from todo_lists_main_page_projection where id = ?";
-	    ListOfRows rows = database.select(sql, webRequest.getUriParameter(1));
+	    String todoListId = webRequest.getUriParameter(1);
+		ListOfRows todoLists = database.select("select * from todo_lists_main_page_projection where id = ?", todoListId);
+		ListOfRows todoItems = database.select("select * from todo_items_page_projection where id = ?", todoListId);
 	    TemplateView view = new TemplateView("todo_list.ftl");
-	    view.put("todoList", rows.get(0));
-	    view.put("todoItems", Collections.emptyList());
+	    view.put("todoList", todoLists.get(0));
+	    view.put("todoItems", todoItems.toCollection());
 	    PrintWriter writer = response.getWriter();
 	    writer.write(view.toHtml());
 	    writer.close();
