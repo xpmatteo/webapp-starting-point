@@ -49,13 +49,42 @@ public class RoutingTest {
 
 		Consumer<WebRequest> answerGet = mockAnswer("foo get");
 		Consumer<WebRequest> answerPost = mockAnswer("foo post");
+
 		router.onPost("/foo", answerPost);
 		router.onAnyMethod("/foo", answerGet);
-
 		router.onRequest(request);
 
 		verifyZeroInteractions(answerGet);
 		verify(answerPost).accept(request);
 	}
+
+	@Test
+	public void specifyingANonNullParameter_whenTheRequestHasIt() {
+		when(request.matches("/foo")).thenReturn(true);
+		when(request.getParameter("zot")).thenReturn("blah!");
+		Consumer<WebRequest> answer = mockAnswer();
+
+		router.onAnyMethod("/foo", answer).withNonEmptyParameter("zot");
+		router.onRequest(request);
+
+		verify(answer).accept(request);
+	}
+
+	@Test
+	public void specifyingANonNullParameter_whenItIsNotPresent() {
+		when(request.matches("/foo")).thenReturn(true);
+
+		Consumer<WebRequest> specificAnswer = mockAnswer();
+
+		router.onAnyMethod("/foo", specificAnswer).withNonEmptyParameter("zot");
+		router.defaultAnswer(mockAnswer());
+		router.onRequest(request);
+
+		verifyZeroInteractions(specificAnswer);
+	}
+
+	private Consumer<WebRequest> mockAnswer() {
+	    return mockAnswer("answer");
+    }
 
 }

@@ -9,11 +9,12 @@ public class Router {
 	static class RouterEntry {
 		String path;
 		Consumer<WebRequest> answer;
-		boolean isPost = false;
+		boolean isPostRequired = false;
+		String nonEmptyParameterRequired;
 
 		public static  RouterEntry forPost(String path, Consumer<WebRequest> answer) {
 			return new RouterEntry(path, answer) {{
-				isPost = true;
+				this.isPostRequired = true;
 			}};
 		}
 
@@ -21,13 +22,20 @@ public class Router {
 	        this.path = path;
 	        this.answer = answer;
         }
+
+		protected RouterEntry withNonEmptyParameter(String name) {
+			nonEmptyParameterRequired = name;
+			return this;
+		}
 	}
 
 	private Consumer<WebRequest> defaultAnswer;
 	private List<RouterEntry> entries = new ArrayList<RouterEntry>();
 
-	public void onAnyMethod(String path, Consumer<WebRequest> answer) {
-		this.entries.add(new RouterEntry(path, answer));
+	public RouterEntry onAnyMethod(String path, Consumer<WebRequest> answer) {
+		RouterEntry entry = new RouterEntry(path, answer);
+		this.entries.add(entry);
+		return entry;
     }
 
 	public void onPost(String path, Consumer<WebRequest> answer) {
@@ -40,15 +48,23 @@ public class Router {
 
 	public void onRequest(WebRequest request) {
 		for (RouterEntry entry : entries) {
-			if (entry.isPost && request.isPost() && request.matches(entry.path)) {
-				entry.answer.accept(request);
-				return;
-			}
-			if (request.matches(entry.path)) {
+			if (matchesMethod(entry, request)
+					&& matchesParameters(entry, request)
+					&& request.matches(entry.path)) {
 				entry.answer.accept(request);
 				return;
 			}
         }
 		defaultAnswer.accept(request);
     }
+
+	private boolean matchesMethod(RouterEntry entry, WebRequest request) {
+		return !entry.isPostRequired || entry.isPostRequired && request.isPost();
+    }
+
+	public boolean matchesParameters(RouterEntry entry, WebRequest request) {
+        return null == entry.nonEmptyParameterRequired
+        		|| null != request.getParameter(entry.nonEmptyParameterRequired);
+    }
+
 }

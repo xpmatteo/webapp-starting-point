@@ -30,4 +30,8 @@ public class WebRequest {
 	    return httpServletRequest.getMethod().equalsIgnoreCase("post");
     }
 
+	public String getParameter(String name) {
+	    return null;
+    }
+
 }
