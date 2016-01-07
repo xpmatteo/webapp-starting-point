@@ -7,7 +7,9 @@
 
   <p>
     <label for="new_name">New name</label> <input type="text" name="new_name" value="" >
-    <input type="submit" value="Change &rarr;">
+    <input type="submit" placeholder="New name" value="Change &rarr;">
   </p>
+
+
 </form>
 </@layout>
