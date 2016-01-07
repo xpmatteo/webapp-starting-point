@@ -69,7 +69,6 @@ public class End2EndAppTest {
 	    return path;
     }
 
-
 	@BeforeClass
 	public static void startTheApplication() throws Exception {
 		app.start(8888, "src/test/webapp");

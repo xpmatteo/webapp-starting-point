@@ -11,15 +11,17 @@ import com.saasovation.common.domain.model.*;
 
 public class TodoListControllerTest implements DomainEventSubscriber<DomainEvent> {
 	private List<DomainEvent> handledEvents = new ArrayList<>();
+	private InMemoryTodoListRepository repository = new InMemoryTodoListRepository();
+	private TodoListsController controller = new TodoListsController();
 
 	@Before
     public void setUp() throws Exception {
 	    DomainEventPublisher.instance().subscribe(this);
+	    DomainEventPublisher.instance().subscribe(repository);
     }
 
 	@Test
-	public void createNewTodoListWithEvents() {
-		TodoListsController controller = new TodoListsController();
+	public void createNewTodoList() {
 		controller.onCreateNewList("pippo");
 
 		assertEquals(1, handledEvents.size());
@@ -29,11 +31,8 @@ public class TodoListControllerTest implements DomainEventSubscriber<DomainEvent
 
 	@Test
 	public void renameTodoList() {
-		InMemoryTodoListRepository repository = new InMemoryTodoListRepository();
 		repository.handleEvent(new TodoListCreatedEvent("123", "pluto"));
-		DomainEventPublisher.instance().subscribe(repository);
 
-		TodoListsController controller = new TodoListsController();
 		controller.onRenameList("123", "pippo");
 
 		assertEquals(1, handledEvents.size());
@@ -45,15 +44,12 @@ public class TodoListControllerTest implements DomainEventSubscriber<DomainEvent
 
 	@Test
 	public void addTodoItem() {
-		InMemoryTodoListRepository repository = new InMemoryTodoListRepository();
-		repository.handleEvent(new TodoListCreatedEvent("123", "pluto"));
-		DomainEventPublisher.instance().subscribe(repository);
+		repository.handleEvent(new TodoListCreatedEvent("777", "my list"));
 
-		TodoListsController controller = new TodoListsController();
-		controller.onAddTodoItem("123", "buy milk");
+		controller.onAddTodoItem("777", "buy milk");
 
 		assertEquals(1, handledEvents.size());
-		assertThat(handledEvents, hasItem(equalTo(new TodoItemCreatedEvent("123", "buy milk"))));
+		assertThat(handledEvents, hasItem(equalTo(new TodoItemCreatedEvent("777", "buy milk"))));
 
 		TodoItemCreatedEvent domainEvent = (TodoItemCreatedEvent) handledEvents.get(0);
 		assertEquals("buy milk", domainEvent.getTodoItemText());
