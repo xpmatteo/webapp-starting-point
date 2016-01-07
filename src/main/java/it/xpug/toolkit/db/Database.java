@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class Database {
-	private DatabaseConfiguration configuration;
+	private ConnectionFactory configuration;
 
-	public Database(DatabaseConfiguration configuration) {
+	public Database(ConnectionFactory configuration) {
 		this.configuration = configuration;
 	}
 

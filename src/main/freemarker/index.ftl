@@ -1,6 +1,6 @@
 <#include "layout.ftl">
 <@layout "My Lists">
-  <ul>
+  <ul id="my-lists">
     <#list todoLists as todoList>
       <li>
         <a href='/todolists/${todoList.id}'>${todoList.name}</a>
@@ -8,12 +8,12 @@
     </#list>
   </ul>
 
-  <hr>
+  <hr />
 
   <form action="/todolists" method="post">
     <p>
-      <input type="text" name="name" value="" placeholder="List Name" id="name">
-      <input type="submit" value="Create new">
+      <input type="text" name="name" value="" placeholder="List Name" id="name" />
+      <input type="submit" value="Create new" />
     </p>
   </form>
 </@layout>

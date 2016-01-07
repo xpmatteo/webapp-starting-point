@@ -10,7 +10,7 @@ public class Main {
 	private static final String DEFAULT_PORT = "8080";
 
 	public static void main(String[] args) {
-		DatabaseConfiguration configuration = new DatabaseConfiguration(getDatabaseUrl());
+		ConnectionFactory configuration = new ConnectionFactory(getDatabaseUrl());
 		TodoListServlet servlet = new TodoListServlet(configuration);
 		ReusableJettyApp app = new ReusableJettyApp(servlet);
 		app.start(getPort(), "src/main/webapp");

@@ -5,11 +5,11 @@ import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class DatabaseConfiguration {
+public class ConnectionFactory {
 
 	private URI dbUri;
 
-	public DatabaseConfiguration(String herokuDatabaseUrl) {
+	public ConnectionFactory(String herokuDatabaseUrl) {
 		try {
 			this.dbUri = new URI(herokuDatabaseUrl);
 		} catch (URISyntaxException e) {

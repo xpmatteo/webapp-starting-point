@@ -12,9 +12,9 @@ import com.saasovation.common.domain.model.*;
 
 public class TodoListServlet extends HttpServlet {
 
-	private DatabaseConfiguration configuration;
+	private ConnectionFactory configuration;
 
-	public TodoListServlet(DatabaseConfiguration configuration) {
+	public TodoListServlet(ConnectionFactory configuration) {
 		this.configuration = configuration;
     }
 
@@ -32,6 +32,7 @@ public class TodoListServlet extends HttpServlet {
 		DomainEventPublisher.instance().subscribe(repository);
 
 		WebRequest webRequest = new WebRequest(request);
+		Router router = new Router();
 		if (webRequest.matches("/todolists/?") && request.getMethod().equals("POST")) {
 			new TodoListsController().onCreateNewList(request.getParameter("name"));
 			response.sendRedirect("/");
