@@ -9,7 +9,7 @@ import org.junit.*;
 
 import com.saasovation.common.domain.model.*;
 
-public class TodoListsControllerTest implements DomainEventSubscriber<DomainEvent> {
+public class TodoListControllerTest implements DomainEventSubscriber<DomainEvent> {
 	private List<DomainEvent> handledEvents = new ArrayList<>();
 
 	@Before
@@ -41,6 +41,22 @@ public class TodoListsControllerTest implements DomainEventSubscriber<DomainEven
 
 		TodoList foundTodoList = repository.find("123");
 		assertEquals("pippo", foundTodoList.getName());
+	}
+
+	@Test
+	public void addTodoItem() {
+		InMemoryTodoListRepository repository = new InMemoryTodoListRepository();
+		repository.handleEvent(new TodoListCreatedEvent("123", "pluto"));
+		DomainEventPublisher.instance().subscribe(repository);
+
+		TodoListsController controller = new TodoListsController();
+		controller.onAddTodoItem("123", "buy milk");
+
+		assertEquals(1, handledEvents.size());
+		assertThat(handledEvents, hasItem(equalTo(new TodoItemCreatedEvent("123", "buy milk"))));
+
+		TodoItemCreatedEvent domainEvent = (TodoItemCreatedEvent) handledEvents.get(0);
+		assertEquals("buy milk", domainEvent.getTodoItemText());
 	}
 
 	@Override

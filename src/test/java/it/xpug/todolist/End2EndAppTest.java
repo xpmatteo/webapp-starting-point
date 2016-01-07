@@ -52,7 +52,7 @@ public class End2EndAppTest {
 		assertEqualsAfterTrimming("NEW NAME", myLists().get(0).getTextContent());
 	}
 
-	@Test
+	@Test@Ignore
 	public void addingATodoItem() throws Exception {
 		String path = createNewTodoList();
 		post(path, "new_item=something-to-do");
