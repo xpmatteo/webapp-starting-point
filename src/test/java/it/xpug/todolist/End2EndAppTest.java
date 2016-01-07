@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.*;
 import java.nio.charset.*;
 import java.util.*;
+import java.util.stream.*;
 
 import org.junit.*;
 
@@ -26,11 +27,14 @@ public class End2EndAppTest {
     }
 
 	@Test
-	public void mainFlow() throws Exception {
+    public void emptyPage() throws Exception {
 		get("/");
 
 		assertEquals("before", 0, myLists().size());
+    }
 
+	@Test
+	public void addingANewTodoList() throws Exception {
 		post("/todolists", "name=list-name");
 
 		get("/");
@@ -38,23 +42,16 @@ public class End2EndAppTest {
 		assertEqualsAfterTrimming("list-name", myLists().get(0).getTextContent());
 	}
 
-	//	@Test
-//	public void servletIsInvokedOnAnyArbitraryPath() throws Exception {
-//		assertThat(get("/pippo"), is("Hello!"));
-//	}
-//
-//	@Test
-//	public void staticResourcesAreReturned() throws Exception {
-//		assertThat(get("/zot.txt"), is("zot"));
-//	}
-//
-//	@Test
-//	public void ifAnIndexIsPresentThenItIsReturned() throws Exception {
-//		FileWriter writer = new FileWriter("src/test/webapp/index.html");
-//		writer.write("Index here");
-//		writer.close();
-//		assertThat(get("/"), is("Index here"));
-//	}
+	@Test
+	public void renamingATodoList() throws Exception {
+		post("/todolists", "name=old%20name");
+		post(myListsUrls().get(0), "new_name=NEW%20NAME");
+
+		get("/");
+		assertEquals("after", 1, myLists().size());
+		assertEqualsAfterTrimming("NEW NAME", myLists().get(0).getTextContent());
+	}
+
 
 	@BeforeClass
 	public static void startTheApplication() throws Exception {
@@ -68,6 +65,11 @@ public class End2EndAppTest {
 
 	private List<XmlNode> myLists() {
 	    return responseBody.getNodes("//ul[@id='my-lists']/li");
+	}
+
+	private List<String> myListsUrls() {
+	    return responseBody.getNodes("//ul[@id='my-lists']//a")
+	    		.stream().map(node -> node.getAttribute("href")).collect(Collectors.toList());
 	}
 
 	private void assertEqualsAfterTrimming(String expected, String actual) {
