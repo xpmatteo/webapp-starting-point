@@ -52,7 +52,6 @@ public class End2EndAppTest {
 		assertEqualsAfterTrimming("NEW NAME", myLists().get(0).getTextContent());
 	}
 
-
 	@BeforeClass
 	public static void startTheApplication() throws Exception {
 		app.start(8888, "src/test/webapp");

@@ -36,4 +36,10 @@ public class WebRequestTest {
 	    assertFalse("is get", new WebRequest(getRequest).isPost());
     }
 
+	@Test
+    public void getParameter() throws Exception {
+	    when(anHttpServletRequest.getParameter("pippo")).thenReturn("pluto");
+
+	    assertEquals("pluto", webRequest.getParameter("pippo"));
+    }
 }

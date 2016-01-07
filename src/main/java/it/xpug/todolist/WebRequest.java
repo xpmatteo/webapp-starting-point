@@ -31,7 +31,11 @@ public class WebRequest {
     }
 
 	public String getParameter(String name) {
-	    return null;
+	    return httpServletRequest.getParameter(name);
+    }
+
+	public String getPath() {
+	    return httpServletRequest.getRequestURI();
     }
 
 }
