@@ -46,10 +46,10 @@ public class TodoListControllerTest implements DomainEventSubscriber<DomainEvent
 	public void addTodoItem() {
 		repository.handleEvent(new TodoListCreatedEvent("777", "my list"));
 
-		controller.onAddTodoItem("777", "buy milk");
+		controller.onAddTodoItem("777", "111", "buy milk");
 
 		assertEquals(1, handledEvents.size());
-		assertThat(handledEvents, hasItem(equalTo(new TodoItemCreatedEvent("777", "buy milk"))));
+		assertThat(handledEvents, hasItem(equalTo(new TodoItemCreatedEvent("777", "111", "buy milk"))));
 
 		TodoItemCreatedEvent domainEvent = (TodoItemCreatedEvent) handledEvents.get(0);
 		assertEquals("buy milk", domainEvent.getTodoItemText());

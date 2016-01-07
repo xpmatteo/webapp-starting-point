@@ -14,11 +14,17 @@ public class TodoListsController {
 		publish(new TodoListRenamedEvent(id, newName));
     }
 
-	public void onAddTodoItem(String id, String newItem) {
-		publish(new TodoItemCreatedEvent(id, newItem));
+	public void onAddTodoItem(String todoListId, String newItem) {
+		String todoItemId = UUID.randomUUID().toString();
+		onAddTodoItem(todoListId, todoItemId, newItem);
+    }
+
+	public void onAddTodoItem(String todoListId, String todoItemId, String newItem) {
+		publish(new TodoItemCreatedEvent(todoListId, todoItemId, newItem));
     }
 
 	private void publish(DomainEvent aDomainEvent) {
 	    DomainEventPublisher.instance().publish(aDomainEvent);
 	}
+
 }
