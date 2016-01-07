@@ -10,15 +10,11 @@
     <input type="submit" placeholder="New name" value="Change &rarr;"/>
   </p>
 
-  <#assign todoItems = [
-    {"text":"First thing to do", "checked": "true"},
-    {"text":"Second thing to do", "checked": "false"},
-    {"text":"Third thing to do", "checked": "false"}
-  ]>
-
-  <#list todoItems!"" as todoItem>
-      <li>${todoItem.text}</li>
-  </#list>
+  <ul id='my-list'>
+    <#list todoItems!"" as todoItem>
+        <li>${todoItem.text}</li>
+    </#list>
+  </ul>
 
   <form action="/todolists/${todoList.id}" method="post">
     <p>

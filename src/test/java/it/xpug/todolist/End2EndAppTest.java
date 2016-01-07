@@ -27,7 +27,7 @@ public class End2EndAppTest {
     }
 
 	@Test
-    public void emptyPage() throws Exception {
+    public void noLists() throws Exception {
 		get("/");
 
 		assertEquals("before", 0, myLists().size());
@@ -52,6 +52,24 @@ public class End2EndAppTest {
 		assertEqualsAfterTrimming("NEW NAME", myLists().get(0).getTextContent());
 	}
 
+	@Test
+	public void addingATodoItem() throws Exception {
+		String path = createNewTodoList();
+		post(path, "new_item=something-to-do");
+
+		get(path);
+
+		assertEquals("we have an item", 1, myTodoItems().size());
+		assertEquals("something-to-do", myTodoItems().get(0));
+	}
+
+	private String createNewTodoList() throws IOException {
+	    post("/todolists", "name=mylist");
+		String path = myListsUrls().get(0);
+	    return path;
+    }
+
+
 	@BeforeClass
 	public static void startTheApplication() throws Exception {
 		app.start(8888, "src/test/webapp");
@@ -64,6 +82,10 @@ public class End2EndAppTest {
 
 	private List<XmlNode> myLists() {
 	    return responseBody.getNodes("//ul[@id='my-lists']/li");
+	}
+
+	private List<XmlNode> myTodoItems() {
+	    return responseBody.getNodes("//ul[@id='my-list']/li");
 	}
 
 	private List<String> myListsUrls() {

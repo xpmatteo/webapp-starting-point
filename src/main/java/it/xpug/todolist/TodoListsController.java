@@ -15,4 +15,7 @@ public class TodoListsController {
 		DomainEventPublisher.instance().publish(new TodoListRenamedEvent(id, newName));
     }
 
+	public void onAddTodoItem(String id, String newItem) {
+    }
+
 }

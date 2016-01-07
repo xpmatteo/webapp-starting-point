@@ -38,4 +38,8 @@ public class WebRequest {
 	    return httpServletRequest.getRequestURI();
     }
 
+	public boolean hasParameter(String name) {
+	    return null != getParameter(name);
+    }
+
 }

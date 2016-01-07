@@ -4,6 +4,7 @@ import it.xpug.toolkit.db.*;
 import it.xpug.toolkit.html.*;
 
 import java.io.*;
+import java.util.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -37,8 +38,17 @@ public class TodoListServlet extends HttpServlet {
 			return;
 		}
 
-		if (webRequest.matches("/todolists/([-0-9a-fA-F]{36})") && request.getMethod().equals("POST")) {
+		if (webRequest.matches("/todolists/([-0-9a-fA-F]{36})")
+				&& webRequest.isPost()
+				&& webRequest.hasParameter("new_name")) {
 			renameList(webRequest, response);
+			return;
+		}
+
+		if (webRequest.matches("/todolists/([-0-9a-fA-F]{36})")
+				&& webRequest.isPost()
+				&& webRequest.hasParameter("new_item")) {
+			addTodoItem(webRequest, response);
 			return;
 		}
 
@@ -55,6 +65,12 @@ public class TodoListServlet extends HttpServlet {
 		showNotFound(response);
 	}
 
+	private void addTodoItem(WebRequest webRequest, HttpServletResponse response) throws IOException {
+	    String id = webRequest.getUriParameter(1);
+	    String newItem = webRequest.getParameter("new_item");
+	    new TodoListsController().onAddTodoItem(id, newItem);
+	    response.sendRedirect(webRequest.getPath());
+    }
 
 	private void showNotFound(HttpServletResponse response) throws IOException {
 		response.setStatus(404);
@@ -69,18 +85,17 @@ public class TodoListServlet extends HttpServlet {
 		writer.close();
     }
 
-
 	private void showSingleList(Database database, WebRequest webRequest, HttpServletResponse response)
             throws IOException {
 	    String sql = "select * from todo_lists_main_page_projection where id = ?";
 	    ListOfRows rows = database.select(sql, webRequest.getUriParameter(1));
 	    TemplateView view = new TemplateView("todo_list.ftl");
 	    view.put("todoList", rows.get(0));
+	    view.put("todoItems", Collections.emptyList());
 	    PrintWriter writer = response.getWriter();
 	    writer.write(view.toHtml());
 	    writer.close();
     }
-
 
 	private void renameList(WebRequest webRequest, HttpServletResponse response) throws IOException {
 	    String id = webRequest.getUriParameter(1);
