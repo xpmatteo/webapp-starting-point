@@ -1,4 +1,4 @@
-import it.xpug.todolist.*;
+package it.xpug.todolist;
 
 import java.util.*;
 import java.util.function.*;

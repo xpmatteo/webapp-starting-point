@@ -1,5 +1,6 @@
+package it.xpug.todolist;
+
 import static org.mockito.Mockito.*;
-import it.xpug.todolist.*;
 
 import java.util.function.*;
 
