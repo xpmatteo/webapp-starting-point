@@ -1,5 +1,13 @@
 
+## remove Router code -- it's not needed
+
+## improve graphics esp. single list page
+
+## check/uncheck items
+
 ## Check HTTP status code in End2end test -- I tried testing for redirection after post, but somehow it always gives me 200 ???
+
+## The controller DOES NOT USE THE DOMAIN OBJECT !!!  invent domain rules so that the domain object makes more sense
 
 ## Il EventStoreRepository non mi convince
 
