@@ -11,7 +11,6 @@ import java.nio.charset.*;
 import java.util.*;
 import java.util.stream.*;
 
-import org.hamcrest.*;
 import org.junit.*;
 
 public class End2EndAppTest {

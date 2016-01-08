@@ -21,3 +21,4 @@
 
 ## Il commit e rollback da database dovrebbero essere gestiti da fuori
 
+## DomainEvent -- use reflection for ToString

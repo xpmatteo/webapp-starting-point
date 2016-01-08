@@ -22,11 +22,6 @@ public class TodoListRenamedEvent extends DomainEvent {
     }
 
 	@Override
-	public boolean equals(Object obj) {
-	    return obj instanceof TodoListRenamedEvent;
-	}
-
-	@Override
 	public String toString() {
 	    return String.format("TodoListRenamedEvent(%s, %s)", id, newName);
 	}

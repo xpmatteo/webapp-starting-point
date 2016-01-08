@@ -26,5 +26,4 @@ public class TodoListsController {
 	private void publish(DomainEvent aDomainEvent) {
 	    DomainEventPublisher.instance().publish(aDomainEvent);
 	}
-
 }

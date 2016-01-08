@@ -16,6 +16,7 @@
 
 package com.saasovation.common.domain.model;
 
+import java.lang.reflect.*;
 import java.util.Date;
 
 public abstract class DomainEvent {
@@ -29,4 +30,38 @@ public abstract class DomainEvent {
     public Date occurredOn() {
     	return occurredOn;
     }
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (null == obj)
+			return false;
+	    if (!(obj.getClass().equals(this.getClass())))
+	    	return false;
+
+	    try {
+		    for (Field f : this.getClass().getDeclaredFields()) {
+		    	f.setAccessible(true);
+		    	if (!(f.get(this).equals(f.get(obj))))
+		    		return false;
+		    }
+		    return true;
+	    } catch (IllegalAccessException e) {
+	    	throw new RuntimeException(e);
+	    }
+	}
+
+	@Override
+	public int hashCode() {
+	    try {
+	    	int code = 0;
+		    for (Field f : this.getClass().getDeclaredFields()) {
+		    	f.setAccessible(true);
+		    	code = code | f.get(this).hashCode();
+		    }
+		    return code;
+	    } catch (IllegalAccessException e) {
+	    	throw new RuntimeException(e);
+	    }
+	}
 }
