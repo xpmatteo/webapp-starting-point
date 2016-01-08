@@ -42,4 +42,8 @@ public class WebRequest {
 	    return null != getParameter(name);
     }
 
+	@Override
+	public String toString() {
+	    return String.format("WebRequest(%s %s)", httpServletRequest.getMethod(), getPath());
+	}
 }

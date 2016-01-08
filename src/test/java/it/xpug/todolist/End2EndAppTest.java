@@ -11,6 +11,7 @@ import java.nio.charset.*;
 import java.util.*;
 import java.util.stream.*;
 
+import org.hamcrest.*;
 import org.junit.*;
 
 public class End2EndAppTest {
@@ -23,6 +24,7 @@ public class End2EndAppTest {
     public void setUp() throws Exception {
 	    Database database = new Database(configuration);
 	    database.execute("truncate todo_lists_main_page_projection");
+	    database.execute("truncate todo_items_page_projection");
 	    database.execute("truncate domain_events");
     }
 
@@ -60,13 +62,13 @@ public class End2EndAppTest {
 		get(path);
 
 		assertEquals("we have an item", 1, myTodoItems().size());
-		assertEquals("something-to-do", myTodoItems().get(0));
+		assertEquals("something-to-do", myTodoItems().get(0).getTextContent());
 	}
 
 	private String createNewTodoList() throws IOException {
 	    post("/todolists", "name=mylist");
-		String path = myListsUrls().get(0);
-	    return path;
+	    get("/");
+		return myListsUrls().get(0);
     }
 
 	@BeforeClass
@@ -97,7 +99,8 @@ public class End2EndAppTest {
 	}
 
 	private String get(String path) throws IOException {
-		try (InputStream stream = makeUrl(path).openStream()) {
+		URL url = makeUrl(path);
+		try (InputStream stream = url.openStream()) {
 			String bodyAsString = toString(stream);
 			this.responseBody = new XmlNode(bodyAsString);
 			return bodyAsString;
@@ -115,8 +118,10 @@ public class End2EndAppTest {
 		try (InputStream inputStream = connection.getInputStream()) {
 			String bodyAsString = toString(inputStream);
 			this.responseBody = new XmlNode(bodyAsString);
+//	????		assertThat(connection.getResponseCode(), Matchers.is(302));
 			return bodyAsString;
 		}
+
 	}
 
 	private String toString(InputStream stream) throws IOException {

@@ -38,7 +38,7 @@ public class TodoListsReadModelProjectionTest {
 
 	@Test
     public void todoItemCreation() throws Exception {
-		projection.handleEvent(new TodoItemCreatedEvent("list id", "item id", "thing to do"));
+		projection.handleEvent(new TodoItemCreatedEvent("item id", "list id", "thing to do"));
 
 		ListOfRows rows = database.select("select * from todo_items_page_projection");
 		assertEquals(1, rows.size());

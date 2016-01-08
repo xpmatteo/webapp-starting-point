@@ -1,4 +1,6 @@
 
+## Check HTTP status code in End2end test -- I tried testing for redirection after post, but somehow it always gives me 200 ???
+
 ## Il EventStoreRepository non mi convince
 
  - chiamare il metodo di dominio per rename potrebbe

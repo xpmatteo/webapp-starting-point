@@ -20,7 +20,7 @@ public class TodoListsController {
     }
 
 	public void onAddTodoItem(String todoListId, String todoItemId, String newItem) {
-		publish(new TodoItemCreatedEvent(todoListId, todoItemId, newItem));
+		publish(new TodoItemCreatedEvent(todoItemId, todoListId, newItem));
     }
 
 	private void publish(DomainEvent aDomainEvent) {

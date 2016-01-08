@@ -8,9 +8,9 @@ public class TodoItemCreatedEvent extends DomainEvent {
 	private String todoListId;
 	private String todoItemText;
 
-	public TodoItemCreatedEvent(String todoListId, String todoItemId, String todoItemText) {
-		this.todoListId = todoListId;
+	public TodoItemCreatedEvent(String todoItemId, String todoListId, String todoItemText) {
 		this.id = todoItemId;
+		this.todoListId = todoListId;
 		this.todoItemText = todoItemText;
     }
 

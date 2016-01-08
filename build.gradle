@@ -33,6 +33,7 @@ task stage {
 // make test progress visible in console
 test {
     testLogging {
+        showStandardStreams = true
         events "passed", "skipped", "failed"
     }
 }

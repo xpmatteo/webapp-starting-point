@@ -4,7 +4,6 @@ import it.xpug.toolkit.db.*;
 import it.xpug.toolkit.html.*;
 
 import java.io.*;
-import java.util.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -34,7 +33,7 @@ public class TodoListServlet extends HttpServlet {
 
 		WebRequest webRequest = new WebRequest(request);
 		if (webRequest.matches("/todolists/?") && request.getMethod().equals("POST")) {
-			createNewList(webRequest, response);
+			createTodoList(webRequest, response);
 			return;
 		}
 
@@ -48,7 +47,7 @@ public class TodoListServlet extends HttpServlet {
 		if (webRequest.matches("/todolists/([-0-9a-fA-F]{36})")
 				&& webRequest.isPost()
 				&& webRequest.hasParameter("new_item")) {
-			addTodoItem(webRequest, response);
+			createTodoItem(webRequest, response);
 			return;
 		}
 
@@ -65,12 +64,18 @@ public class TodoListServlet extends HttpServlet {
 		showNotFound(response);
 	}
 
-	private void addTodoItem(WebRequest webRequest, HttpServletResponse response) throws IOException {
+	private void createTodoItem(WebRequest webRequest, HttpServletResponse response) throws IOException {
 	    String id = webRequest.getUriParameter(1);
 	    String newItem = webRequest.getParameter("new_item");
 	    new TodoListsController().onAddTodoItem(id, newItem);
 	    response.sendRedirect(webRequest.getPath());
     }
+
+	private void createTodoList(WebRequest webRequest, HttpServletResponse response) throws IOException {
+	    new TodoListsController().onCreateNewList(webRequest.getParameter("name"));
+	    response.sendRedirect("/");
+	}
+
 
 	private void showNotFound(HttpServletResponse response) throws IOException {
 		response.setStatus(404);
@@ -89,7 +94,7 @@ public class TodoListServlet extends HttpServlet {
             throws IOException {
 	    String todoListId = webRequest.getUriParameter(1);
 		ListOfRows todoLists = database.select("select * from todo_lists_main_page_projection where id = ?", todoListId);
-		ListOfRows todoItems = database.select("select * from todo_items_page_projection where id = ?", todoListId);
+		ListOfRows todoItems = database.select("select * from todo_items_page_projection where todo_list_id = ?", todoListId);
 	    TemplateView view = new TemplateView("todo_list.ftl");
 	    view.put("todoList", todoLists.get(0));
 	    view.put("todoItems", todoItems.toCollection());
@@ -103,11 +108,5 @@ public class TodoListServlet extends HttpServlet {
 	    String newName = webRequest.getParameter("new_name");
 	    new TodoListsController().onRenameList(id, newName);
 	    response.sendRedirect(webRequest.getPath());
-    }
-
-
-	private void createNewList(WebRequest webRequest, HttpServletResponse response) throws IOException {
-	    new TodoListsController().onCreateNewList(webRequest.getParameter("name"));
-	    response.sendRedirect("/");
     }
 }
