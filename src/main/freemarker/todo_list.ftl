@@ -15,7 +15,7 @@
     <#list todoItems!"" as todoItem>
         <li>
           <form action="/todoitems/${todoItem.id}" method="post">
-            <input type="checkbox" name="done" value="true" />
+            <input type="checkbox" name="done" value="true" onclick="form.submit()" />
             ${todoItem.todo_item_text}
           </form>
         </li>
@@ -33,18 +33,11 @@
     <#list todoItems!"" as todoItem>
     <li>
       <form action="/todoitems/${todoItem.id}" method="post">
-        <input type="checkbox" name="done" value="false" checked="checked" />
+        <input type="checkbox" name="done" value="false" onclick="form.submit()" checked="checked" />
         ${todoItem.todo_item_text}
       </form>
     </li>
     </#list>
   </ul>
-
-  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-  <script>
-    $("input[type=checkbox]").click(function(el) {
-      this.form.submit();
-    });
-  </script>
 
 </@layout>

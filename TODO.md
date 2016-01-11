@@ -1,4 +1,9 @@
 
+## finire la check/uncheck ... ero rimasto che il test sul controller passa, ma mancano
+  - EventStoreTodoItemRepository
+  - update Projection
+
+
 ## remove Router code -- it's not needed
 
 ## servlet refactor: add proper controllers in servlet
