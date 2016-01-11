@@ -11,14 +11,16 @@
     </p>
   </form>
 
-  <ul id='todo'>
+  <ul id='todo' style='list-style: none'>
     <#list todoItems!"" as todoItem>
+      <#if !todoItem.done>
         <li>
           <form action="/todoitems/${todoItem.id}" method="post">
             <input type="checkbox" name="done" value="true" onclick="form.submit()" />
             ${todoItem.todo_item_text}
           </form>
         </li>
+      </#if>
     </#list>
   </ul>
 
@@ -29,14 +31,16 @@
     </p>
   </form>
 
-  <ul id='done'>
+  <ul id='done'  style='list-style: none'>
     <#list todoItems!"" as todoItem>
-    <li>
-      <form action="/todoitems/${todoItem.id}" method="post">
-        <input type="checkbox" name="done" value="false" onclick="form.submit()" checked="checked" />
-        ${todoItem.todo_item_text}
-      </form>
-    </li>
+      <#if todoItem.done>
+      <li>
+        <form action="/todoitems/${todoItem.id}" method="post">
+          <input type="checkbox" name="done" value="false" onclick="form.submit()" checked="checked" />
+          ${todoItem.todo_item_text}
+        </form>
+      </li>
+      </#if>
     </#list>
   </ul>
 
