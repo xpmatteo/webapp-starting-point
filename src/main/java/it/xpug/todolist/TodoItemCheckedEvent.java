@@ -10,8 +10,4 @@ public class TodoItemCheckedEvent extends DomainEvent {
 		this.id = todoItemId;
     }
 
-	public Object getId() {
-	    return id;
-    }
-
 }

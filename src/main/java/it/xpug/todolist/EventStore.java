@@ -1,12 +1,9 @@
 package it.xpug.todolist;
 
 import static java.lang.Class.*;
-
-import java.util.*;
-
 import it.xpug.toolkit.db.*;
 
-import org.json.*;
+import java.util.*;
 
 import com.google.gson.*;
 import com.saasovation.common.domain.model.*;
@@ -23,12 +20,14 @@ public class EventStore implements DomainEventSubscriber<DomainEvent> {
     public void handleEvent(DomainEvent aDomainEvent) {
 		String sql = "insert into domain_events (occurredOn, version, eventType, entityId, params) "
 				+ "values (?, ?, ?, ?, cast(? as json))";
-		JSONObject json = (JSONObject) JSONObject.wrap(aDomainEvent);
+
+		String json = new Gson().toJson(aDomainEvent);
+
 		database.execute(sql,
 				new java.sql.Date(aDomainEvent.occurredOn().getTime()),
 				aDomainEvent.eventVersion(),
 				aDomainEvent.getClass().getSimpleName(),
-				json.getString("id"),
+				aDomainEvent.getId(),
 				json.toString());
     }
 

@@ -80,4 +80,14 @@ public abstract class DomainEvent {
 	        throw new RuntimeException(e);
 	    }
 	}
+
+	public String getId() {
+        try {
+        	Field field = getClass().getDeclaredField("id");
+	        field.setAccessible(true);
+	        return (String) field.get(this);
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+	        throw new RuntimeException(e);
+        }
+    }
 }
