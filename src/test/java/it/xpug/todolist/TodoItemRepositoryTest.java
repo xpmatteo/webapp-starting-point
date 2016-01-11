@@ -8,7 +8,7 @@ import org.junit.*;
 public class TodoItemRepositoryTest {
 	Database database = new TestDatabase();
 	EventStore eventStore = new EventStore(database);
-	TodoItemRepository repository = new TodoItemRepository(database);
+	TodoItemRepository repository = new TodoItemRepository(eventStore);
 
 	@Test
     public void find() throws Exception {

@@ -9,8 +9,7 @@ public class TodoItem {
 		this.todoListId = todoListId;
     }
 
-	public String getTodoListId() {
-	    return todoListId;
+	public TodoItem() {
     }
 
 	public boolean isDone() {
@@ -19,6 +18,14 @@ public class TodoItem {
 
 	public void setDone() {
 		this.isDone = true;
+    }
+
+	public String getTodoListId() {
+	    return todoListId;
+	}
+
+	public void setTodoListId(String todoListId) {
+		this.todoListId = todoListId;
     }
 
 }

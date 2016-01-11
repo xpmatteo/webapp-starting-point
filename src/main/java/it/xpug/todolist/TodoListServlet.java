@@ -29,7 +29,7 @@ public class TodoListServlet extends HttpServlet {
 
 		TodoListMainPageProjection projection = new TodoListMainPageProjection(database);
 		EventStore eventStore = new EventStore(database);
-		TodoItemRepository todoItems = new TodoItemRepository(database);
+		TodoItemRepository todoItems = new TodoItemRepository(eventStore);
 		//TodoListRepository todoLists = new TodoListRepository(database);
 		DomainEventPublisher.instance().reset();
 		DomainEventPublisher.instance().subscribe(projection);

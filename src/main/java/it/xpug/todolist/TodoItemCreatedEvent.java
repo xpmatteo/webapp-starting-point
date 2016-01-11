@@ -14,6 +14,12 @@ public class TodoItemCreatedEvent extends DomainEvent {
 		this.todoItemText = todoItemText;
     }
 
+	@Override
+	public void applyTo(Object object) {
+		TodoItem todoItem = (TodoItem) object;
+		todoItem.setTodoListId(todoListId);
+	}
+
 	public String getTodoItemText() {
 	    return todoItemText;
     }

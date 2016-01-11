@@ -18,6 +18,7 @@ package com.saasovation.common.domain.model;
 
 import static java.util.Arrays.*;
 import static java.util.stream.Collectors.*;
+import it.xpug.todolist.*;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -65,7 +66,7 @@ public abstract class DomainEvent {
 	    return code;
 	}
 
-	private Field[] getFields() {
+	protected Field[] getFields() {
 	    Field[] fields = this.getClass().getDeclaredFields();
 	    for (Field field : fields) {
 	        field.setAccessible(true);
@@ -89,5 +90,8 @@ public abstract class DomainEvent {
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 	        throw new RuntimeException(e);
         }
+    }
+
+	public void applyTo(Object object) {
     }
 }
