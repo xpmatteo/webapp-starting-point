@@ -11,7 +11,7 @@
     </p>
   </form>
 
-  <ul id='my-list'>
+  <ul id='todo'>
     <#list todoItems!"" as todoItem>
         <li>${todoItem.todo_item_text}</li>
     </#list>

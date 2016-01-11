@@ -64,10 +64,20 @@ public class End2EndAppTest {
 		assertEquals("something-to-do", myTodoItems().get(0).getTextContent());
 	}
 
-	private String createNewTodoList() throws IOException {
-	    post("/todolists", "name=mylist");
-	    get("/");
-		return myListsUrls().get(0);
+	@Test
+    public void checkingATodoItem() throws Exception {
+		String todoListPath = createNewTodoList();
+		String todoItemPath = createNewTodoItem(todoListPath);
+
+		get(todoListPath);
+		assertEquals("one thing to do", 1, myTodoItems().size());
+		assertEquals("nothing completed", 0, myDoneItems().size());
+
+		post(todoItemPath, "done=true");
+
+		get(todoListPath);
+		assertEquals("now nothing to do", 0, myTodoItems().size());
+		assertEquals("now one thing is completed", 1, myDoneItems().size());
     }
 
 	@BeforeClass
@@ -80,12 +90,29 @@ public class End2EndAppTest {
 		app.shutdown();
 	}
 
+	private String createNewTodoList() throws IOException {
+	    post("/todolists", "name=mylist");
+	    get("/");
+		return myListsUrls().get(0);
+    }
+
+	private String createNewTodoItem(String todoListPath) throws IOException {
+		post(todoListPath, "new_item=something-to-do");
+	    get(todoListPath);
+		List<XmlNode> myTodoItems = myTodoItems();
+		return myTodoItems.get(myTodoItems.size()-1).getNode("//a").getAttribute("href");
+    }
+
 	private List<XmlNode> myLists() {
 	    return responseBody.getNodes("//ul[@id='my-lists']/li");
 	}
 
 	private List<XmlNode> myTodoItems() {
-	    return responseBody.getNodes("//ul[@id='my-list']/li");
+	    return responseBody.getNodes("//ul[@id='todo']/li");
+	}
+
+	private List<XmlNode> myDoneItems() {
+	    return responseBody.getNodes("//ul[@id='done']/li");
 	}
 
 	private List<String> myListsUrls() {

@@ -1,6 +1,8 @@
 
 ## remove Router code -- it's not needed
 
+## servlet refactor: add proper controllers in servlet
+
 ## improve graphics esp. single list page
 
 ## check/uncheck items
