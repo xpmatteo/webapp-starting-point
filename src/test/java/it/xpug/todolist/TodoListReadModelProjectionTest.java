@@ -5,7 +5,7 @@ import it.xpug.toolkit.db.*;
 
 import org.junit.*;
 
-public class TodoListsReadModelProjectionTest {
+public class TodoListReadModelProjectionTest {
 
 	Database database = new TestDatabase();
 	TodoListMainPageProjection projection = new TodoListMainPageProjection(database);

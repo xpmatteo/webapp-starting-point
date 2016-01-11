@@ -30,32 +30,28 @@ public class TodoListServlet extends HttpServlet {
 		TodoListMainPageProjection projection = new TodoListMainPageProjection(database);
 		EventStore eventStore = new EventStore(database);
 		TodoItemRepository todoItems = new TodoItemRepository(database);
-		TodoListRepository todoLists = new TodoListRepository(database);
+		//TodoListRepository todoLists = new TodoListRepository(database);
 		DomainEventPublisher.instance().reset();
 		DomainEventPublisher.instance().subscribe(projection);
 		DomainEventPublisher.instance().subscribe(eventStore);
 
 		WebRequest webRequest = new WebRequest(request);
-		if (webRequest.matches("/todoitems/" + ID_REGEX) && request.getMethod().equals("POST")) {
+		if (webRequest.matches("/todoitems/" + ID_REGEX) && webRequest.isPost()) {
 			new CheckTodoItemController(webRequest, response, todoItems).service();
 			return;
 		}
 
-		if (webRequest.matches("/todolists/?") && request.getMethod().equals("POST")) {
-			createTodoList(webRequest, response);
+		if (webRequest.matches("/todolists/?") && webRequest.isPost()) {
+			new CreateTodoList(webRequest, response).service();
 			return;
 		}
 
-		if (webRequest.matches("/todolists/" + ID_REGEX)
-				&& webRequest.isPost()
-				&& webRequest.hasParameter("new_name")) {
+		if (webRequest.matches("/todolists/" + ID_REGEX) && webRequest.isPost() && webRequest.hasParameter("new_name")) {
 			renameList(webRequest, response);
 			return;
 		}
 
-		if (webRequest.matches("/todolists/" + ID_REGEX)
-				&& webRequest.isPost()
-				&& webRequest.hasParameter("new_item")) {
+		if (webRequest.matches("/todolists/" + ID_REGEX) && webRequest.isPost() && webRequest.hasParameter("new_item")) {
 			createTodoItem(webRequest, response);
 			return;
 		}
@@ -79,11 +75,6 @@ public class TodoListServlet extends HttpServlet {
 	    new TodoListsController().onAddTodoItem(id, newItem);
 	    response.sendRedirect(webRequest.getPath());
     }
-
-	private void createTodoList(WebRequest webRequest, HttpServletResponse response) throws IOException {
-	    new TodoListsController().onCreateNewList(webRequest.getParameter("name"));
-	    response.sendRedirect("/");
-	}
 
 
 	private void showNotFound(HttpServletResponse response) throws IOException {

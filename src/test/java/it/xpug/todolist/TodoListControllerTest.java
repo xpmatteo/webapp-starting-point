@@ -21,15 +21,6 @@ public class TodoListControllerTest implements DomainEventSubscriber<DomainEvent
     }
 
 	@Test
-	public void createNewTodoList() {
-		controller.onCreateNewList("pippo");
-
-		assertEquals(1, handledEvents.size());
-		TodoListCreatedEvent domainEvent = (TodoListCreatedEvent) handledEvents.get(0);
-		assertEquals("pippo", domainEvent.getName());
-	}
-
-	@Test
 	public void renameTodoList() {
 		repository.handleEvent(new TodoListCreatedEvent("123", "pluto"));
 
