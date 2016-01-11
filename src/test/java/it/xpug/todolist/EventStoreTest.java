@@ -1,5 +1,6 @@
 package it.xpug.todolist;
 
+import static java.util.Arrays.*;
 import static org.junit.Assert.*;
 
 import java.util.*;
@@ -7,6 +8,8 @@ import java.util.*;
 import it.xpug.toolkit.db.*;
 
 import org.junit.*;
+
+import com.saasovation.common.domain.model.*;
 
 public class EventStoreTest {
 
@@ -29,6 +32,20 @@ public class EventStoreTest {
 	    assertEquals("TodoListCreatedEvent", row.get("eventtype"));
 	    assertEquals("{\"name\":\"a list\",\"id\":\"333\"}", row.get("params").toString());
     }
+
+	@Test
+    public void findEvents() throws Exception {
+	    TodoListCreatedEvent a = new TodoListCreatedEvent("333", "a list");
+	    TodoListCreatedEvent b = new TodoListCreatedEvent("444", "a list");
+	    TodoListRenamedEvent c = new TodoListRenamedEvent("333", "other name");
+		eventStore.handleEvent(a);
+		eventStore.handleEvent(b);
+		eventStore.handleEvent(c);
+
+	    List<DomainEvent> events = eventStore.findEvents("333");
+		assertEquals(asList(a, c), events);
+    }
+
 
 	@Test
     public void renamedEventDatabaseRow() throws Exception {
