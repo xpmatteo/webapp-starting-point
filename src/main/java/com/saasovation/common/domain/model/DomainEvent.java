@@ -16,8 +16,11 @@
 
 package com.saasovation.common.domain.model;
 
+import static java.util.Arrays.*;
+import static java.util.stream.Collectors.*;
+
 import java.lang.reflect.*;
-import java.util.Date;
+import java.util.*;
 
 public abstract class DomainEvent {
 
@@ -31,6 +34,12 @@ public abstract class DomainEvent {
     	return occurredOn;
     }
 
+    @Override
+    public String toString() {
+    	String className = this.getClass().getSimpleName();
+    	String fields = stream(getFields()).map(f -> getValue(f).toString()).collect(joining(", "));
+        return String.format("%s(%s)", className, fields);
+    }
 
 	@Override
 	public boolean equals(Object obj) {
@@ -39,29 +48,36 @@ public abstract class DomainEvent {
 	    if (!(obj.getClass().equals(this.getClass())))
 	    	return false;
 
-	    try {
-		    for (Field f : this.getClass().getDeclaredFields()) {
-		    	f.setAccessible(true);
-		    	if (!(f.get(this).equals(f.get(obj))))
-		    		return false;
-		    }
-		    return true;
-	    } catch (IllegalAccessException e) {
-	    	throw new RuntimeException(e);
+	    DomainEvent other = (DomainEvent) obj;
+	    for (Field f : getFields()) {
+	    	if (!(getValue(f).equals(other.getValue(f))))
+	    		return false;
 	    }
+	    return true;
 	}
 
 	@Override
 	public int hashCode() {
+    	int code = 0;
+	    for (Field f : getFields()) {
+	    	code = code | getValue(f).hashCode();
+	    }
+	    return code;
+	}
+
+	private Field[] getFields() {
+	    Field[] fields = this.getClass().getDeclaredFields();
+	    for (Field field : fields) {
+	        field.setAccessible(true);
+        }
+		return fields;
+	}
+
+	private Object getValue(Field f) {
 	    try {
-	    	int code = 0;
-		    for (Field f : this.getClass().getDeclaredFields()) {
-		    	f.setAccessible(true);
-		    	code = code | f.get(this).hashCode();
-		    }
-		    return code;
-	    } catch (IllegalAccessException e) {
-	    	throw new RuntimeException(e);
+	        return f.get(this);
+	    } catch (IllegalArgumentException | IllegalAccessException e) {
+	        throw new RuntimeException(e);
 	    }
 	}
 }

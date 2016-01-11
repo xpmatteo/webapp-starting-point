@@ -35,7 +35,7 @@ public class TodoListServlet extends HttpServlet {
 
 		WebRequest webRequest = new WebRequest(request);
 		if (webRequest.matches("/todoitems/" + ID_REGEX) && request.getMethod().equals("POST")) {
-			createTodoList(webRequest, response);
+			new CheckTodoItemController(webRequest, response, null).service();
 			return;
 		}
 
