@@ -18,7 +18,6 @@ package com.saasovation.common.domain.model;
 
 import static java.util.Arrays.*;
 import static java.util.stream.Collectors.*;
-import it.xpug.todolist.*;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -35,7 +34,20 @@ public abstract class DomainEvent {
     	return occurredOn;
     }
 
-    @Override
+    public String getId() {
+	    try {
+	    	Field field = getClass().getDeclaredField("id");
+	        field.setAccessible(true);
+	        return (String) field.get(this);
+	    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+	        throw new RuntimeException(e);
+	    }
+	}
+
+	public void applyTo(Object object) {
+	}
+
+	@Override
     public String toString() {
     	String className = this.getClass().getSimpleName();
     	String fields = stream(getFields()).map(f -> getValue(f).toString()).collect(joining(", "));
@@ -66,7 +78,17 @@ public abstract class DomainEvent {
 	    return code;
 	}
 
-	protected Field[] getFields() {
+	protected void set(Object object, String fieldName, Object value) {
+		try {
+	        Field field = object.getClass().getDeclaredField(fieldName);
+	        field.setAccessible(true);
+	        field.set(object, value);
+	    } catch (IllegalArgumentException | ReflectiveOperationException | SecurityException e) {
+	        throw new RuntimeException(e);
+	    }
+	}
+
+	private Field[] getFields() {
 	    Field[] fields = this.getClass().getDeclaredFields();
 	    for (Field field : fields) {
 	        field.setAccessible(true);
@@ -78,29 +100,6 @@ public abstract class DomainEvent {
 	    try {
 	        return f.get(this);
 	    } catch (IllegalArgumentException | IllegalAccessException e) {
-	        throw new RuntimeException(e);
-	    }
-	}
-
-	public String getId() {
-        try {
-        	Field field = getClass().getDeclaredField("id");
-	        field.setAccessible(true);
-	        return (String) field.get(this);
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-	        throw new RuntimeException(e);
-        }
-    }
-
-	public void applyTo(Object object) {
-    }
-
-	protected void set(Object object, String fieldName, Object value) {
-		try {
-	        Field field = object.getClass().getDeclaredField(fieldName);
-	        field.setAccessible(true);
-	        field.set(object, value);
-	    } catch (IllegalArgumentException | ReflectiveOperationException | SecurityException e) {
 	        throw new RuntimeException(e);
 	    }
 	}

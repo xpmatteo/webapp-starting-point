@@ -64,7 +64,7 @@ public class End2EndAppTest {
 		assertEquals("something-to-do", myTodoItems().get(0).getTextContent());
 	}
 
-	@Test@Ignore
+	@Test
     public void checkingATodoItem() throws Exception {
 		String todoListPath = createNewTodoList();
 		String todoItemPath = createNewTodoItem(todoListPath);
@@ -76,8 +76,8 @@ public class End2EndAppTest {
 		post(todoItemPath, "done=true");
 
 		get(todoListPath);
-		assertEquals("now nothing to do", 0, myTodoItems().size());
 		assertEquals("now one thing is completed", 1, myDoneItems().size());
+		assertEquals("now nothing to do", 0, myTodoItems().size());
     }
 
 	@BeforeClass
