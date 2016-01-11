@@ -129,7 +129,7 @@ public class XmlNode {
 	}
 
 	public String getTextContent() {
-		return node.getTextContent();
+		return node.getTextContent().trim();
 	}
 
 	public String getAttribute(String name) {

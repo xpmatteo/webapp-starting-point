@@ -12,6 +12,8 @@ import com.saasovation.common.domain.model.*;
 
 public class TodoListServlet extends HttpServlet {
 
+	private static final String ID_REGEX = "([-0-9a-fA-F]{36})";
+
 	private ConnectionFactory configuration;
 
 	public TodoListServlet(ConnectionFactory configuration) {
@@ -32,26 +34,31 @@ public class TodoListServlet extends HttpServlet {
 		DomainEventPublisher.instance().subscribe(repository);
 
 		WebRequest webRequest = new WebRequest(request);
+		if (webRequest.matches("/todoitems/" + ID_REGEX) && request.getMethod().equals("POST")) {
+			createTodoList(webRequest, response);
+			return;
+		}
+
 		if (webRequest.matches("/todolists/?") && request.getMethod().equals("POST")) {
 			createTodoList(webRequest, response);
 			return;
 		}
 
-		if (webRequest.matches("/todolists/([-0-9a-fA-F]{36})")
+		if (webRequest.matches("/todolists/" + ID_REGEX)
 				&& webRequest.isPost()
 				&& webRequest.hasParameter("new_name")) {
 			renameList(webRequest, response);
 			return;
 		}
 
-		if (webRequest.matches("/todolists/([-0-9a-fA-F]{36})")
+		if (webRequest.matches("/todolists/" + ID_REGEX)
 				&& webRequest.isPost()
 				&& webRequest.hasParameter("new_item")) {
 			createTodoItem(webRequest, response);
 			return;
 		}
 
-		if (webRequest.matches("/todolists/([-0-9a-fA-F]{36})")) {
+		if (webRequest.matches("/todolists/" + ID_REGEX)) {
 			showSingleList(database, webRequest, response);
 			return;
 		}

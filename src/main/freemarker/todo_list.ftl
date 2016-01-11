@@ -13,7 +13,12 @@
 
   <ul id='todo'>
     <#list todoItems!"" as todoItem>
-        <li>${todoItem.todo_item_text}</li>
+        <li>
+          <form action="/todoitems/${todoItem.id}" method="post">
+            <input type="checkbox" name="done" value="true" />
+            ${todoItem.todo_item_text}
+          </form>
+        </li>
     </#list>
   </ul>
 
@@ -23,5 +28,23 @@
       <input type="submit" value="+ Add this item" />
     </p>
   </form>
+
+  <ul id='done'>
+    <#list todoItems!"" as todoItem>
+    <li>
+      <form action="/todoitems/${todoItem.id}" method="post">
+        <input type="checkbox" name="done" value="false" checked="checked" />
+        ${todoItem.todo_item_text}
+      </form>
+    </li>
+    </#list>
+  </ul>
+
+  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script>
+    $("input[type=checkbox]").click(function(el) {
+      this.form.submit();
+    });
+  </script>
 
 </@layout>

@@ -40,7 +40,7 @@ public class End2EndAppTest {
 
 		get("/");
 		assertEquals("after", 1, myLists().size());
-		assertEqualsAfterTrimming("list-name", myLists().get(0).getTextContent());
+		assertEquals("list-name", myLists().get(0).getTextContent());
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class End2EndAppTest {
 
 		get("/");
 		assertEquals("after", 1, myLists().size());
-		assertEqualsAfterTrimming("NEW NAME", myLists().get(0).getTextContent());
+		assertEquals("NEW NAME", myLists().get(0).getTextContent());
 	}
 
 	@Test
@@ -64,7 +64,7 @@ public class End2EndAppTest {
 		assertEquals("something-to-do", myTodoItems().get(0).getTextContent());
 	}
 
-	@Test
+	@Test@Ignore
     public void checkingATodoItem() throws Exception {
 		String todoListPath = createNewTodoList();
 		String todoItemPath = createNewTodoItem(todoListPath);
@@ -118,10 +118,6 @@ public class End2EndAppTest {
 	private List<String> myListsUrls() {
 	    return responseBody.getNodes("//ul[@id='my-lists']//a")
 	    		.stream().map(node -> node.getAttribute("href")).collect(Collectors.toList());
-	}
-
-	private void assertEqualsAfterTrimming(String expected, String actual) {
-		assertEquals(expected.trim(), actual.trim());
 	}
 
 	private String get(String path) throws IOException {
