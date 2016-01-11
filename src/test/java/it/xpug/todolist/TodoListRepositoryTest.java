@@ -8,10 +8,11 @@ import it.xpug.toolkit.db.*;
 
 import org.junit.*;
 
-public class EventStoreTodoListRepositoryTest {
+public class TodoListRepositoryTest {
 
 	private Database database = new TestDatabase();
-	private EventStoreTodoListRepository repository = new EventStoreTodoListRepository(database);
+	private EventStore eventStore = new EventStore(database);
+	private TodoListRepository todoLists = new TodoListRepository(database);
 
 	@Before
     public void setUp() throws Exception {
@@ -20,7 +21,7 @@ public class EventStoreTodoListRepositoryTest {
 
 	@Test
     public void createEventDatabaseRow() throws Exception {
-	    repository.handleEvent(new TodoListCreatedEvent("333", "a list"));
+	    eventStore.handleEvent(new TodoListCreatedEvent("333", "a list"));
 
 	    ListOfRows rows = database.select("select * from domain_events");
 	    assertEquals(1, rows.size());
@@ -32,7 +33,7 @@ public class EventStoreTodoListRepositoryTest {
 
 	@Test
     public void renamedEventDatabaseRow() throws Exception {
-	    repository.handleEvent(new TodoListRenamedEvent("888", "blah"));
+	    eventStore.handleEvent(new TodoListRenamedEvent("888", "blah"));
 
 	    ListOfRows rows = database.select("select * from domain_events");
 	    assertEquals(1, rows.size());
@@ -44,25 +45,25 @@ public class EventStoreTodoListRepositoryTest {
 
 	@Test
     public void create() throws Exception {
-	    repository.handleEvent(new TodoListCreatedEvent("1111", "a list"));
+	    eventStore.handleEvent(new TodoListCreatedEvent("1111", "a list"));
 
-	    TodoList foundTodoList = repository.find("1111");
+	    TodoList foundTodoList = todoLists.find("1111");
 	    assertEquals("a list", foundTodoList.getName());
     }
 
 	@Test
     public void notFound() throws Exception {
-	    repository.handleEvent(new TodoListCreatedEvent("list-id", "a list"));
-	    assertNull(repository.find("BAD ID"));
+	    eventStore.handleEvent(new TodoListCreatedEvent("list-id", "a list"));
+	    assertNull(todoLists.find("BAD ID"));
     }
 
 	@Test
     public void createAndRename() throws Exception {
-	    repository.handleEvent(new TodoListCreatedEvent("111", "old name"));
-	    repository.handleEvent(new TodoListRenamedEvent("111", "some other name"));
-	    repository.handleEvent(new TodoListRenamedEvent("111", "new name"));
+	    eventStore.handleEvent(new TodoListCreatedEvent("111", "old name"));
+	    eventStore.handleEvent(new TodoListRenamedEvent("111", "some other name"));
+	    eventStore.handleEvent(new TodoListRenamedEvent("111", "new name"));
 
-	    TodoList foundTodoList = repository.find("111");
+	    TodoList foundTodoList = todoLists.find("111");
 	    assertEquals("new name", foundTodoList.getName());
     }
 }

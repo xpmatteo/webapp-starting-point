@@ -28,11 +28,12 @@ public class TodoListServlet extends HttpServlet {
 		Database database = new Database(configuration);
 
 		TodoListMainPageProjection projection = new TodoListMainPageProjection(database);
-		EventStoreTodoListRepository repository = new EventStoreTodoListRepository(database);
+		EventStore eventStore = new EventStore(database);
 		TodoItemRepository todoItems = new TodoItemRepository(database);
+		TodoListRepository todoLists = new TodoListRepository(database);
 		DomainEventPublisher.instance().reset();
 		DomainEventPublisher.instance().subscribe(projection);
-		DomainEventPublisher.instance().subscribe(repository);
+		DomainEventPublisher.instance().subscribe(eventStore);
 
 		WebRequest webRequest = new WebRequest(request);
 		if (webRequest.matches("/todoitems/" + ID_REGEX) && request.getMethod().equals("POST")) {

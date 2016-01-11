@@ -7,7 +7,7 @@ import org.junit.*;
 
 public class TodoItemRepositoryTest {
 	Database database = new TestDatabase();
-	EventStoreTodoListRepository eventStore = new EventStoreTodoListRepository(database);
+	EventStore eventStore = new EventStore(database);
 	TodoItemRepository repository = new TodoItemRepository(database);
 
 	@Test
