@@ -4,10 +4,14 @@ import com.saasovation.common.domain.model.*;
 
 public class TodoItemCheckedEvent extends DomainEvent {
 
-	private String todoItemId;
+	private String id;
 
 	public TodoItemCheckedEvent(String todoItemId) {
-		this.todoItemId = todoItemId;
+		this.id = todoItemId;
+    }
+
+	public Object getId() {
+	    return id;
     }
 
 }
