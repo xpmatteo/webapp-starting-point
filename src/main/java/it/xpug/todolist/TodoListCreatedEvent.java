@@ -22,7 +22,8 @@ public class TodoListCreatedEvent extends DomainEvent {
     }
 
 	@Override
-	public String toString() {
-	    return String.format("TodoListCreatedEvent(%s, %s)", id, name);
+	public void applyTo(Object object) {
+	    TodoList todoList = (TodoList) object;
+	    todoList.setName(name);
 	}
 }

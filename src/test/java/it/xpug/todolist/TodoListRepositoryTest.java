@@ -9,7 +9,7 @@ public class TodoListRepositoryTest {
 
 	private Database database = new TestDatabase();
 	private EventStore eventStore = new EventStore(database);
-	private TodoListRepository todoLists = new TodoListRepository(database);
+	private TodoListRepository todoLists = new TodoListRepository(eventStore);
 
 	@Before
     public void setUp() throws Exception {

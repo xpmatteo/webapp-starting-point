@@ -22,8 +22,7 @@ public class TodoListRenamedEvent extends DomainEvent {
     }
 
 	@Override
-	public String toString() {
-	    return String.format("TodoListRenamedEvent(%s, %s)", id, newName);
+	public void applyTo(Object object) {
+	    set(object, "name", newName);
 	}
-
 }

@@ -39,9 +39,6 @@ public class EventStore implements DomainEventSubscriber<DomainEvent> {
 	public List<DomainEvent> findEvents(String entityId) {
 		String sql = "select * from domain_events where entityId = ? order by id asc";
 		ListOfRows rows = database.select(sql, entityId);
-		if (0 == rows.size())
-			return null;
-
 		List<DomainEvent> events = new ArrayList<>();
 		for (Map<String, Object> row : rows.toCollection()) {
 			try {

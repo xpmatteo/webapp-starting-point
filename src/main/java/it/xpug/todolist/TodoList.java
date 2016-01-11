@@ -8,9 +8,16 @@ public class TodoList {
 		this.name = name;
     }
 
+	public TodoList() {
+    }
+
 	public String getName() {
 	    return name;
     }
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public void rename(String newName) {
 		this.name = newName;

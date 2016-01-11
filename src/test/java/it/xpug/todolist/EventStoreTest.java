@@ -25,7 +25,7 @@ public class EventStoreTest {
     public void findEvents() throws Exception {
 	    TodoListCreatedEvent a = new TodoListCreatedEvent("333", "a list");
 	    TodoListCreatedEvent b = new TodoListCreatedEvent("444", "a list");
-	    TodoListRenamedEvent c = new TodoListRenamedEvent("333", "other name");
+	    DomainEvent c = new TodoListRenamedEvent("333", "other name");
 		eventStore.handleEvent(a);
 		eventStore.handleEvent(b);
 		eventStore.handleEvent(c);

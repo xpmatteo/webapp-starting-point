@@ -94,4 +94,14 @@ public abstract class DomainEvent {
 
 	public void applyTo(Object object) {
     }
+
+	protected void set(Object object, String fieldName, Object value) {
+		try {
+	        Field field = object.getClass().getDeclaredField(fieldName);
+	        field.setAccessible(true);
+	        field.set(object, value);
+	    } catch (IllegalArgumentException | ReflectiveOperationException | SecurityException e) {
+	        throw new RuntimeException(e);
+	    }
+	}
 }
