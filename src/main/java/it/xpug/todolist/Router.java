@@ -1,26 +1,25 @@
 package it.xpug.todolist;
 
 import java.util.*;
-import java.util.function.*;
 
 
 public class Router {
 
 	static class RouterEntry {
 		String path;
-		Consumer<WebRequest> answer;
+		Command command;
 		boolean isPostRequired = false;
 		String nonEmptyParameterRequired;
 
-		public static  RouterEntry forPost(String path, Consumer<WebRequest> answer) {
-			return new RouterEntry(path, answer) {{
+		public static RouterEntry forPost(String path, Command command) {
+			return new RouterEntry(path, command) {{
 				this.isPostRequired = true;
 			}};
 		}
 
-		public RouterEntry(String path, Consumer<WebRequest> answer) {
+		public RouterEntry(String path, Command command) {
 	        this.path = path;
-	        this.answer = answer;
+	        this.command = command;
         }
 
 		protected RouterEntry withNonEmptyParameter(String name) {
@@ -29,33 +28,32 @@ public class Router {
 		}
 	}
 
-	private Consumer<WebRequest> defaultAnswer;
+	private Command defaultCommand;
 	private List<RouterEntry> entries = new ArrayList<RouterEntry>();
 
-	public RouterEntry onAnyMethod(String path, Consumer<WebRequest> answer) {
-		RouterEntry entry = new RouterEntry(path, answer);
+	public RouterEntry onAnyMethod(String path, Command command) {
+		RouterEntry entry = new RouterEntry(path, command);
 		this.entries.add(entry);
 		return entry;
     }
 
-	public void onPost(String path, Consumer<WebRequest> answer) {
-		this.entries.add(RouterEntry.forPost(path, answer));
+	public void onPost(String path, Command command) {
+		this.entries.add(RouterEntry.forPost(path, command));
 	}
 
-	public void defaultAnswer(Consumer<WebRequest> answer) {
-		this.defaultAnswer = answer;
+	public void defaultAnswer(Command command) {
+		this.defaultCommand = command;
     }
 
-	public void onRequest(WebRequest request) {
+	public Command getCommandFor(WebRequest request) {
 		for (RouterEntry entry : entries) {
 			if (matchesMethod(entry, request)
 					&& matchesParameters(entry, request)
 					&& request.matches(entry.path)) {
-				entry.answer.accept(request);
-				return;
+				return entry.command;
 			}
         }
-		defaultAnswer.accept(request);
+		return defaultCommand;
     }
 
 	private boolean matchesMethod(RouterEntry entry, WebRequest request) {

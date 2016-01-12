@@ -4,7 +4,7 @@ import java.io.*;
 
 import javax.servlet.http.*;
 
-public class ShowNotFound {
+public class ShowNotFound extends Command {
 
 	private HttpServletResponse response;
 

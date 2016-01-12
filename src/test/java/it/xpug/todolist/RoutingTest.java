@@ -1,5 +1,6 @@
 package it.xpug.todolist;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.function.*;
@@ -8,39 +9,28 @@ import org.junit.*;
 
 
 public class RoutingTest {
-
 	WebRequest request = mock(WebRequest.class);
 	Router router = new Router();
 
 	@Test
 	public void onNotFound() {
-		Consumer<WebRequest> answer = mockAnswer("404");
-		router.defaultAnswer(answer);
+		Command command = mock(Command.class);
+		router.defaultAnswer(command);
 
-		router.onRequest(request);
-
-		verify(answer).accept(request);
+		assertEquals(command, router.getCommandFor(request));
 	}
-
-	@SuppressWarnings("unchecked")
-    private Consumer<WebRequest> mockAnswer(String name) {
-	    return mock(Consumer.class, name);
-    }
 
 	@Test
 	public void responseOnSpecificPath() {
 		when(request.matches("/foo")).thenReturn(true);
 		when(request.matches("/bar")).thenReturn(false);
 
-		Consumer<WebRequest> answerFoo = mockAnswer("foo");
-		Consumer<WebRequest> answerBar = mockAnswer("bar");
+		Command answerFoo = mockCommand("foo");
+		Command answerBar = mockCommand("bar");
 		router.onAnyMethod("/foo", answerFoo);
 		router.onAnyMethod("/bar", answerBar);
 
-		router.onRequest(request);
-
-		verify(answerFoo).accept(request);
-		verifyZeroInteractions(answerBar);
+		assertEquals(answerFoo, router.getCommandFor(request));
 	}
 
 	@Test
@@ -48,44 +38,39 @@ public class RoutingTest {
 		when(request.matches("/foo")).thenReturn(true);
 		when(request.isPost()).thenReturn(true);
 
-		Consumer<WebRequest> answerGet = mockAnswer("foo get");
-		Consumer<WebRequest> answerPost = mockAnswer("foo post");
+		Command answerPost = mockCommand("foo post");
 
 		router.onPost("/foo", answerPost);
-		router.onAnyMethod("/foo", answerGet);
-		router.onRequest(request);
+		router.onAnyMethod("/foo", mockCommand("foo get"));
 
-		verifyZeroInteractions(answerGet);
-		verify(answerPost).accept(request);
+		assertEquals(answerPost, router.getCommandFor(request));
 	}
 
 	@Test
 	public void specifyingANonNullParameter_whenTheRequestHasIt() {
 		when(request.matches("/foo")).thenReturn(true);
 		when(request.getParameter("zot")).thenReturn("blah!");
-		Consumer<WebRequest> answer = mockAnswer();
+		Command command = mockAnswer();
 
-		router.onAnyMethod("/foo", answer).withNonEmptyParameter("zot");
-		router.onRequest(request);
-
-		verify(answer).accept(request);
+		router.onAnyMethod("/foo", command).withNonEmptyParameter("zot");
+		assertEquals(command, router.getCommandFor(request));
 	}
 
 	@Test
 	public void specifyingANonNullParameter_whenItIsNotPresent() {
 		when(request.matches("/foo")).thenReturn(true);
 
-		Consumer<WebRequest> specificAnswer = mockAnswer();
-
-		router.onAnyMethod("/foo", specificAnswer).withNonEmptyParameter("zot");
-		router.defaultAnswer(mockAnswer());
-		router.onRequest(request);
-
-		verifyZeroInteractions(specificAnswer);
+		Command notFound = mockCommand("not found");
+		router.defaultAnswer(notFound);
+		router.onAnyMethod("/foo", mockAnswer()).withNonEmptyParameter("zot");
+		assertEquals(notFound, router.getCommandFor(request));
 	}
 
-	private Consumer<WebRequest> mockAnswer() {
-	    return mockAnswer("answer");
+	private Command mockAnswer() {
+	    return mockCommand("command");
     }
 
+    private Command mockCommand(String name) {
+	    return mock(Command.class, name);
+    }
 }
