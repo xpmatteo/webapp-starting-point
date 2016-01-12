@@ -36,6 +36,7 @@ public class TodoListServlet extends HttpServlet {
 		DomainEventPublisher.instance().subscribe(eventStore);
 
 		WebRequest webRequest = new WebRequest(request);
+		System.out.println(webRequest);
 		if (webRequest.matches("/todoitems/" + ID_REGEX) && webRequest.isPost()) {
 			new CheckTodoItemController(webRequest, response, todoItems).service();
 			return;

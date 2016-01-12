@@ -99,8 +99,8 @@ public class End2EndAppTest {
 	private String createNewTodoItem(String todoListPath) throws IOException {
 		post(todoListPath, "new_item=something-to-do");
 	    get(todoListPath);
-		List<XmlNode> myTodoItems = myTodoItems();
-		return myTodoItems.get(myTodoItems.size()-1).getNode("//a").getAttribute("href");
+		XmlNode link = responseBody.getNode("//ul[@id='todo']/li//form[last()]");
+		return link.getAttribute("action");
     }
 
 	private List<XmlNode> myLists() {
