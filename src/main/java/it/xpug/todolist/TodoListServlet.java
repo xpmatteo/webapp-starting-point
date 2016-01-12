@@ -63,7 +63,7 @@ public class TodoListServlet extends HttpServlet {
 		}
 
 		if (webRequest.matches("/")) {
-			showAllLists(database, response);
+			new ShowAllLists(response, database).service();
 			return;
 		}
 
@@ -73,13 +73,5 @@ public class TodoListServlet extends HttpServlet {
 	private void showNotFound(HttpServletResponse response) throws IOException {
 		response.setStatus(404);
 		response.getWriter().write("Not found");
-    }
-
-	private void showAllLists(Database database, HttpServletResponse response) throws IOException {
-	    TemplateView view = new TemplateView("index.ftl");
-		view.put("todoLists", database.select("select * from todo_lists_main_page_projection").toCollection());
-		PrintWriter writer = response.getWriter();
-		writer.write(view.toHtml());
-		writer.close();
     }
 }
