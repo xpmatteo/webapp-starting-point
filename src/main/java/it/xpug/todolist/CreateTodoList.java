@@ -22,7 +22,6 @@ public class CreateTodoList {
     }
 
 	void service(String id) throws IOException {
-		TodoListsController r = new TodoListsController();
 		DomainEventPublisher.instance().publish(new TodoListCreatedEvent(id, webRequest.getParameter("name")));
 	    response.sendRedirect("/");
     }

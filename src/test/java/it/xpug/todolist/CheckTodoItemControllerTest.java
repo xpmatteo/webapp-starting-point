@@ -21,7 +21,7 @@ public class CheckTodoItemControllerTest implements DomainEventSubscriber<Domain
 
 	@Test
     public void markTodoItemDone() throws Exception {
-		when(webRequest.getUriParameter(1)).thenReturn("1111");
+		when(webRequest.getPathParameter(1)).thenReturn("1111");
 		TodoItem todoItem = new TodoItem("abcd");
 		when(repository.find("1111")).thenReturn(todoItem);
 

@@ -18,12 +18,12 @@ public class WebRequest {
 		return matcher.matches();
     }
 
-	public String getUriParameter(int index) {
+	public String getPathParameter(int index) {
 	    return matcher.group(index);
     }
 
 	public int getUriParameterAsInteger(int index) {
-	    return Integer.valueOf(getUriParameter(index));
+	    return Integer.valueOf(getPathParameter(index));
     }
 
 	public boolean isPost() {

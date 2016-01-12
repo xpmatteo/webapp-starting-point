@@ -19,7 +19,7 @@ public class CheckTodoItem {
     }
 
 	public void service() throws IOException {
-		String todoItemId = webRequest.getUriParameter(1);
+		String todoItemId = webRequest.getPathParameter(1);
 		TodoItem todoItem = repository.find(todoItemId);
 		DomainEventPublisher.instance().publish(new TodoItemCheckedEvent(todoItemId));
 		response.sendRedirect("/todolists/" + todoItem.getTodoListId());

@@ -17,3 +17,11 @@
 ## Check HTTP status code in End2end test -- I tried testing for redirection after post, but somehow it always gives me 200 ???
 
 ## Il commit e rollback da database dovrebbero essere gestiti da fuori
+
+## Use UUID type, not string?
+
+## WebRequest to take regexps like di questo tipo: "/foo/(?<bar>\w+)" to define a new parameter "bar"
+
+## WebRequest should always imply "^ ... $"
+
+

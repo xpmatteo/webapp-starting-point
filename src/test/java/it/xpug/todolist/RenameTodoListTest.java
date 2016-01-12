@@ -17,7 +17,7 @@ public class RenameTodoListTest extends TestCaseWithEvents {
 	@Test
 	public void renameTodoList() throws IOException {
 		when(webRequest.getPath()).thenReturn("/todolists/123");
-		when(webRequest.getUriParameter(1)).thenReturn("123");
+		when(webRequest.getPathParameter(1)).thenReturn("123");
 		when(webRequest.getParameter("new_name")).thenReturn("pippo");
 
 		new RenameTodoList(webRequest , response).service();

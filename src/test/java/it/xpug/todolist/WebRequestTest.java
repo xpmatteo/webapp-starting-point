@@ -15,7 +15,7 @@ public class WebRequestTest {
     public void matchParameters() throws Exception {
 		when(anHttpServletRequest.getRequestURI()).thenReturn("/foo/1234");
 		assertTrue("matches pattern", webRequest.matches("/foo/(\\d+)"));
-		assertEquals("1234", webRequest.getUriParameter(1));
+		assertEquals("1234", webRequest.getPathParameter(1));
 		assertEquals(1234, webRequest.getUriParameterAsInteger(1));
     }
 

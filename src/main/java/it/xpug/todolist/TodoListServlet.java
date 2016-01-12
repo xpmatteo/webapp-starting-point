@@ -53,12 +53,12 @@ public class TodoListServlet extends HttpServlet {
 		}
 
 		if (webRequest.matches("/todolists/" + ID_REGEX) && webRequest.isPost() && webRequest.hasParameter("new_item")) {
-			createTodoItem(webRequest, response);
+			new CreateTodoItem(webRequest, response).service();
 			return;
 		}
 
 		if (webRequest.matches("/todolists/" + ID_REGEX)) {
-			showSingleList(database, webRequest, response);
+			new ShowSingleList(webRequest, response, database).service();
 			return;
 		}
 
@@ -69,14 +69,6 @@ public class TodoListServlet extends HttpServlet {
 
 		showNotFound(response);
 	}
-
-	private void createTodoItem(WebRequest webRequest, HttpServletResponse response) throws IOException {
-	    String id = webRequest.getUriParameter(1);
-	    String newItem = webRequest.getParameter("new_item");
-	    new TodoListsController().onAddTodoItem(id, newItem);
-	    response.sendRedirect(webRequest.getPath());
-    }
-
 
 	private void showNotFound(HttpServletResponse response) throws IOException {
 		response.setStatus(404);
@@ -90,18 +82,4 @@ public class TodoListServlet extends HttpServlet {
 		writer.write(view.toHtml());
 		writer.close();
     }
-
-	private void showSingleList(Database database, WebRequest webRequest, HttpServletResponse response)
-            throws IOException {
-	    String todoListId = webRequest.getUriParameter(1);
-		ListOfRows todoLists = database.select("select * from todo_lists_main_page_projection where id = ?", todoListId);
-		ListOfRows todoItems = database.select("select * from todo_items_page_projection where todo_list_id = ?", todoListId);
-	    TemplateView view = new TemplateView("todo_list.ftl");
-	    view.put("todoList", todoLists.get(0));
-	    view.put("todoItems", todoItems.toCollection());
-	    PrintWriter writer = response.getWriter();
-	    writer.write(view.toHtml());
-	    writer.close();
-    }
-
 }
