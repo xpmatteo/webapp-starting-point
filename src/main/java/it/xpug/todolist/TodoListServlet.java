@@ -1,7 +1,6 @@
 package it.xpug.todolist;
 
 import it.xpug.toolkit.db.*;
-import it.xpug.toolkit.html.*;
 
 import java.io.*;
 
@@ -67,11 +66,7 @@ public class TodoListServlet extends HttpServlet {
 			return;
 		}
 
-		showNotFound(response);
+		new ShowNotFound(response).service();
 	}
 
-	private void showNotFound(HttpServletResponse response) throws IOException {
-		response.setStatus(404);
-		response.getWriter().write("Not found");
-    }
 }
