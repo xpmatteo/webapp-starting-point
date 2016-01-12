@@ -6,7 +6,7 @@ import javax.servlet.http.*;
 
 import com.saasovation.common.domain.model.*;
 
-public class RenameTodoList {
+public class RenameTodoList extends Command {
 
 	private WebRequest webRequest;
 	private HttpServletResponse response;

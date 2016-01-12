@@ -6,7 +6,7 @@ import javax.servlet.http.*;
 
 import com.saasovation.common.domain.model.*;
 
-public class CheckTodoItem {
+public class CheckTodoItem extends Command {
 
 	private WebRequest webRequest;
 	private HttpServletResponse response;

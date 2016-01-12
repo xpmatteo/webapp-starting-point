@@ -7,7 +7,7 @@ import it.xpug.toolkit.html.*;
 
 import javax.servlet.http.*;
 
-public class ShowSingleList {
+public class ShowSingleList extends Command {
 
 	private Database database;
 	private WebRequest webRequest;

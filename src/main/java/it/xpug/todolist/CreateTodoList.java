@@ -7,7 +7,7 @@ import javax.servlet.http.*;
 
 import com.saasovation.common.domain.model.*;
 
-public class CreateTodoList {
+public class CreateTodoList extends Command {
 
 	private WebRequest webRequest;
 	private HttpServletResponse response;

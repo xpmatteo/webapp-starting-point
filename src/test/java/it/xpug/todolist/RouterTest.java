@@ -3,12 +3,10 @@ package it.xpug.todolist;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.util.function.*;
-
 import org.junit.*;
 
 
-public class RoutingTest {
+public class RouterTest {
 	WebRequest request = mock(WebRequest.class);
 	Router router = new Router();
 
@@ -50,7 +48,7 @@ public class RoutingTest {
 	public void specifyingANonNullParameter_whenTheRequestHasIt() {
 		when(request.matches("/foo")).thenReturn(true);
 		when(request.getParameter("zot")).thenReturn("blah!");
-		Command command = mockAnswer();
+		Command command = mockCommand();
 
 		router.onAnyMethod("/foo", command).withNonEmptyParameter("zot");
 		assertEquals(command, router.getCommandFor(request));
@@ -62,11 +60,11 @@ public class RoutingTest {
 
 		Command notFound = mockCommand("not found");
 		router.defaultAnswer(notFound);
-		router.onAnyMethod("/foo", mockAnswer()).withNonEmptyParameter("zot");
+		router.onAnyMethod("/foo", mockCommand()).withNonEmptyParameter("zot");
 		assertEquals(notFound, router.getCommandFor(request));
 	}
 
-	private Command mockAnswer() {
+	private Command mockCommand() {
 	    return mockCommand("command");
     }
 
