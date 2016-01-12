@@ -38,7 +38,7 @@ public class TodoListServlet extends HttpServlet {
 		WebRequest webRequest = new WebRequest(request);
 		System.out.println(webRequest);
 		if (webRequest.matches("/todoitems/" + ID_REGEX) && webRequest.isPost()) {
-			new CheckTodoItemController(webRequest, response, todoItems).service();
+			new CheckTodoItem(webRequest, response, todoItems).service();
 			return;
 		}
 
@@ -48,7 +48,7 @@ public class TodoListServlet extends HttpServlet {
 		}
 
 		if (webRequest.matches("/todolists/" + ID_REGEX) && webRequest.isPost() && webRequest.hasParameter("new_name")) {
-			renameList(webRequest, response);
+			new RenameTodoList(webRequest, response).service();
 			return;
 		}
 
@@ -104,10 +104,4 @@ public class TodoListServlet extends HttpServlet {
 	    writer.close();
     }
 
-	private void renameList(WebRequest webRequest, HttpServletResponse response) throws IOException {
-	    String id = webRequest.getUriParameter(1);
-	    String newName = webRequest.getParameter("new_name");
-	    new TodoListsController().onRenameList(id, newName);
-	    response.sendRedirect(webRequest.getPath());
-    }
 }

@@ -10,10 +10,6 @@ public class TodoListsController {
 		publish(new TodoListCreatedEvent(id, name));
     }
 
-	public void onRenameList(String id, String newName) {
-		publish(new TodoListRenamedEvent(id, newName));
-    }
-
 	public void onAddTodoItem(String todoListId, String newItem) {
 		String todoItemId = UUID.randomUUID().toString();
 		onAddTodoItem(todoListId, todoItemId, newItem);

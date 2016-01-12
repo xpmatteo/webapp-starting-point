@@ -17,7 +17,7 @@ public class CheckTodoItemControllerTest implements DomainEventSubscriber<Domain
 	WebRequest webRequest = mock(WebRequest.class);
 	HttpServletResponse response = mock(HttpServletResponse.class);
 	TodoItemRepository repository = mock(TodoItemRepository.class);
-	CheckTodoItemController controller = new CheckTodoItemController(webRequest, response, repository);
+	CheckTodoItem controller = new CheckTodoItem(webRequest, response, repository);
 
 	@Test
     public void markTodoItemDone() throws Exception {

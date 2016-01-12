@@ -6,13 +6,13 @@ import javax.servlet.http.*;
 
 import com.saasovation.common.domain.model.*;
 
-public class CheckTodoItemController {
+public class CheckTodoItem {
 
 	private WebRequest webRequest;
 	private HttpServletResponse response;
 	private TodoItemRepository repository;
 
-	public CheckTodoItemController(WebRequest webRequest, HttpServletResponse response, TodoItemRepository repository) {
+	public CheckTodoItem(WebRequest webRequest, HttpServletResponse response, TodoItemRepository repository) {
 		this.webRequest = webRequest;
 		this.response = response;
 		this.repository = repository;
