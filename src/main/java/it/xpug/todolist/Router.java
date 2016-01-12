@@ -10,11 +10,18 @@ public class Router {
 		String path;
 		Supplier<Command> command;
 		boolean isPostRequired = false;
+		boolean isGetRequired = false;
 		String nonEmptyParameterRequired;
 
 		public static RouterEntry forPost(String path, Supplier<Command> command) {
 			return new RouterEntry(path, command) {{
 				this.isPostRequired = true;
+			}};
+		}
+
+		public static RouterEntry forGet(String path, Supplier<Command> command) {
+			return new RouterEntry(path, command) {{
+				this.isGetRequired = true;
 			}};
 		}
 
@@ -38,11 +45,19 @@ public class Router {
 		return entry;
     }
 
-	public void onPost(String path, Supplier<Command> command) {
-		this.entries.add(RouterEntry.forPost(path, command));
+	public RouterEntry onGet(String path, Supplier<Command> command) {
+		RouterEntry entry = RouterEntry.forGet(path, command);
+		this.entries.add(entry);
+		return entry;
 	}
 
-	public void defaultAnswer(Supplier<Command> command) {
+	public RouterEntry onPost(String path, Supplier<Command> command) {
+		RouterEntry entry = RouterEntry.forPost(path, command);
+		this.entries.add(entry);
+		return entry;
+	}
+
+	public void onNotFound(Supplier<Command> command) {
 		this.defaultCommand = command;
     }
 
@@ -54,16 +69,21 @@ public class Router {
 				return entry.command.get();
 			}
         }
+		if (null == defaultCommand)
+			throw new RuntimeException("We should have a default command, but it was not set");
 		return defaultCommand.get();
     }
 
-	private boolean matchesMethod(RouterEntry entry, WebRequest request) {
-		return !entry.isPostRequired || entry.isPostRequired && request.isPost();
-    }
-
 	public boolean matchesParameters(RouterEntry entry, WebRequest request) {
-        return null == entry.nonEmptyParameterRequired
-        		|| null != request.getParameter(entry.nonEmptyParameterRequired);
+	    return null == entry.nonEmptyParameterRequired
+	    		|| null != request.getParameter(entry.nonEmptyParameterRequired);
+	}
+
+	private boolean matchesMethod(RouterEntry entry, WebRequest request) {
+		if (request.isPost())
+			return !entry.isGetRequired;
+
+		return !entry.isPostRequired;
     }
 
 }

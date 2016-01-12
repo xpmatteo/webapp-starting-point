@@ -20,7 +20,7 @@ public class RenameTodoListTest extends TestCaseWithEvents {
 		when(webRequest.getPathParameter(1)).thenReturn("123");
 		when(webRequest.getParameter("new_name")).thenReturn("pippo");
 
-		new RenameTodoList(webRequest , response).service();
+		new RenameTodoList().service(webRequest, response);
 
 		assertEquals(1, handledEvents.size());
 		assertThat(handledEvents, hasItem(equalTo(new TodoListRenamedEvent("123", "pippo"))));

@@ -13,7 +13,7 @@ public class RouterTest {
 	@Test
 	public void onNotFound() {
 		Command command = mock(Command.class);
-		router.defaultAnswer(() -> command);
+		router.onNotFound(() -> command);
 
 		assertEquals(command, router.getCommandFor(request));
 	}
@@ -31,16 +31,29 @@ public class RouterTest {
 	}
 
 	@Test
-	public void responseOnSpecificPathAndMethod() {
+	public void onPost() {
 		when(request.matches("/foo")).thenReturn(true);
 		when(request.isPost()).thenReturn(true);
 
-		Command answerPost = mockCommand("foo post");
+		Command commandPost = mockCommand("foo post");
 
-		router.onPost("/foo", () -> answerPost);
-		router.onAnyMethod("/foo", () -> mockCommand("foo get"));
+		router.onGet("/foo", () -> mockCommand("get"));
+		router.onPost("/foo", () -> commandPost);
 
-		assertEquals(answerPost, router.getCommandFor(request));
+		assertEquals(commandPost, router.getCommandFor(request));
+	}
+
+	@Test
+	public void onGet() {
+		when(request.matches("/foo")).thenReturn(true);
+		when(request.isPost()).thenReturn(false);
+
+		Command expectedCommand = mockCommand("get");
+
+		router.onPost("/foo", () -> mockCommand("post"));
+		router.onGet("/foo", () -> expectedCommand);
+
+		assertEquals(expectedCommand, router.getCommandFor(request));
 	}
 
 	@Test
@@ -58,7 +71,7 @@ public class RouterTest {
 		when(request.matches("/foo")).thenReturn(true);
 
 		Command notFound = mockCommand("not found");
-		router.defaultAnswer(() -> notFound);
+		router.onNotFound(() -> notFound);
 		router.onAnyMethod("/foo", () -> mockCommand()).withNonEmptyParameter("zot");
 		assertEquals(notFound, router.getCommandFor(request));
 	}

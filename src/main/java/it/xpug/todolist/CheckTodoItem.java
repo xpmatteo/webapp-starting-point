@@ -8,17 +8,13 @@ import com.saasovation.common.domain.model.*;
 
 public class CheckTodoItem extends Command {
 
-	private WebRequest webRequest;
-	private HttpServletResponse response;
 	private TodoItemRepository repository;
 
-	public CheckTodoItem(WebRequest webRequest, HttpServletResponse response, TodoItemRepository repository) {
-		this.webRequest = webRequest;
-		this.response = response;
+	public CheckTodoItem(TodoItemRepository repository) {
 		this.repository = repository;
     }
 
-	public void service() throws IOException {
+	public void service(WebRequest webRequest, HttpServletResponse response) throws IOException {
 		String todoItemId = webRequest.getPathParameter(1);
 		TodoItem todoItem = repository.find(todoItemId);
 		DomainEventPublisher.instance().publish(new TodoItemCheckedEvent(todoItemId));

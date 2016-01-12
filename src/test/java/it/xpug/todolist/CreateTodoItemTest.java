@@ -16,7 +16,7 @@ public class CreateTodoItemTest extends TestCaseForCommand {
 		when(webRequest.getPathParameter(1)).thenReturn("777");
 		when(webRequest.getPath()).thenReturn("/todolists/777");
 
-		new CreateTodoItem(webRequest, response).service("111");
+		new CreateTodoItem().service(webRequest, response, "111");
 
 		assertEquals(1, handledEvents.size());
 		assertThat(handledEvents, hasItem(equalTo(new TodoItemCreatedEvent("111", "777", "buy milk"))));

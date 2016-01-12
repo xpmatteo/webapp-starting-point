@@ -9,19 +9,11 @@ import com.saasovation.common.domain.model.*;
 
 public class CreateTodoItem extends Command {
 
-	private WebRequest webRequest;
-	private HttpServletResponse response;
-
-	public CreateTodoItem(WebRequest webRequest, HttpServletResponse response) {
-		this.webRequest = webRequest;
-		this.response = response;
+	public void service(WebRequest webRequest, HttpServletResponse response) throws IOException {
+		service(webRequest, response, UUID.randomUUID().toString());
     }
 
-	public void service() throws IOException {
-		service(UUID.randomUUID().toString());
-    }
-
-	void service(String todoItemId) throws IOException {
+	void service(WebRequest webRequest, HttpServletResponse response, String todoItemId) throws IOException {
 	    String id = webRequest.getPathParameter(1);
 	    String newItem = webRequest.getParameter("new_item");
 		DomainEventPublisher.instance().publish(new TodoItemCreatedEvent(todoItemId, id, newItem));

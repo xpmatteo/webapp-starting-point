@@ -17,7 +17,7 @@ public class CheckTodoItemControllerTest implements DomainEventSubscriber<Domain
 	WebRequest webRequest = mock(WebRequest.class);
 	HttpServletResponse response = mock(HttpServletResponse.class);
 	TodoItemRepository repository = mock(TodoItemRepository.class);
-	CheckTodoItem controller = new CheckTodoItem(webRequest, response, repository);
+	CheckTodoItem controller = new CheckTodoItem(repository);
 
 	@Test
     public void markTodoItemDone() throws Exception {
@@ -25,7 +25,7 @@ public class CheckTodoItemControllerTest implements DomainEventSubscriber<Domain
 		TodoItem todoItem = new TodoItem("abcd");
 		when(repository.find("1111")).thenReturn(todoItem);
 
-		controller.service();
+		controller.service(webRequest, response);
 
 		assertThat(handledEvents , hasItem(equalTo(new TodoItemCheckedEvent("1111"))));
 		verify(response).sendRedirect("/todolists/abcd");

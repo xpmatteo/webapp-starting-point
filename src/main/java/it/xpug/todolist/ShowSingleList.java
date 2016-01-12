@@ -10,16 +10,12 @@ import javax.servlet.http.*;
 public class ShowSingleList extends Command {
 
 	private Database database;
-	private WebRequest webRequest;
-	private HttpServletResponse response;
 
-	public ShowSingleList(WebRequest webRequest, HttpServletResponse response, Database database) throws IOException {
+	public ShowSingleList(Database database) throws IOException {
 		this.database = database;
-		this.webRequest = webRequest;
-		this.response = response;
     }
 
-	public void service() throws IOException {
+	public void service(WebRequest webRequest, HttpServletResponse response) throws IOException {
 	    String todoListId = webRequest.getPathParameter(1);
 		ListOfRows todoLists = database.select("select * from todo_lists_main_page_projection where id = ?", todoListId);
 		ListOfRows todoItems = database.select("select * from todo_items_page_projection where todo_list_id = ?", todoListId);

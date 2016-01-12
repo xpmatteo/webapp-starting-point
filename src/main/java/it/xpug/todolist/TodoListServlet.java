@@ -19,7 +19,6 @@ public class TodoListServlet extends HttpServlet {
 		this.configuration = configuration;
     }
 
-
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
@@ -36,28 +35,36 @@ public class TodoListServlet extends HttpServlet {
 
 		WebRequest webRequest = new WebRequest(request);
 		System.out.println(webRequest);
+
+		Router router = new Router();
+
+		router.onPost("/todoitems/" + ID_REGEX, () -> new CheckTodoItem(todoItems));
 		if (webRequest.matches("/todoitems/" + ID_REGEX) && webRequest.isPost()) {
-			new CheckTodoItem(webRequest, response, todoItems).service();
+			new CheckTodoItem(todoItems).service(webRequest, response);
 			return;
 		}
 
+		router.onPost("/todolists/?", () -> new CreateTodoList());
 		if (webRequest.matches("/todolists/?") && webRequest.isPost()) {
-			new CreateTodoList(webRequest, response).service();
+			new CreateTodoList().service(webRequest, response);
 			return;
 		}
 
+		router.onPost("/todolists/" + ID_REGEX, () -> new RenameTodoList()).withNonEmptyParameter("new_name");
 		if (webRequest.matches("/todolists/" + ID_REGEX) && webRequest.isPost() && webRequest.hasParameter("new_name")) {
-			new RenameTodoList(webRequest, response).service();
+			new RenameTodoList().service(webRequest, response);
 			return;
 		}
 
+		router.onPost("/todolists/" + ID_REGEX, () -> new CreateTodoItem()).withNonEmptyParameter("new_item");
 		if (webRequest.matches("/todolists/" + ID_REGEX) && webRequest.isPost() && webRequest.hasParameter("new_item")) {
-			new CreateTodoItem(webRequest, response).service();
+			new CreateTodoItem().service(webRequest, response);
 			return;
 		}
 
+		//router.onGet("/todolists/" + ID_REGEX, () -> new ShowSingleList(database));
 		if (webRequest.matches("/todolists/" + ID_REGEX)) {
-			new ShowSingleList(webRequest, response, database).service();
+			new ShowSingleList(database).service(webRequest, response);
 			return;
 		}
 
@@ -67,6 +74,8 @@ public class TodoListServlet extends HttpServlet {
 		}
 
 		new ShowNotFound(response).service();
+		//router.getCommandFor(webRequest).service(webRequest, response);
+
 	}
 
 }
