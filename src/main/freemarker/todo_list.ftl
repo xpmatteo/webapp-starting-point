@@ -1,13 +1,28 @@
 <#include "layout.ftl">
 <@layout "My Lists: ${todoList.name}">
 
-  <h2>${todoList.name}</h2>
+  <style type="text/css">
+    #list-name {
+      display: inline;
+    }
+    #toggle-rename {
+      font-style: italic;
+      color: gray;
+      font-size: small;
+    }
+    form#rename {
+      margin-bottom: 3em;
+    }
+  </style>
 
-  <form action="/todolists/${todoList.id}" method="post">
+  <h2 id="list-name">${todoList.name}</h2>
+  <a href="#" id='toggle-rename'>rename</a>
+
+  <form action="/todolists/${todoList.id}" method="post" id="rename" hidden="hidden">
     <input type="hidden" name="id" value="" />
     <p>
-      <label for="new_name">New name</label> <input type="text" name="new_name" value="" />
-      <input type="submit" placeholder="New name" value="Change &rarr;"/>
+      <input type="text" value="${todoList.name}" name="new_name" value="" />
+      <input type="submit" value="Change &rarr;"/>
     </p>
   </form>
 
@@ -43,5 +58,14 @@
       </#if>
     </#list>
   </ul>
+
+  <script src='https://code.jquery.com/jquery-1.12.0.min.js'></script>
+  <script>
+    $(function() {
+      $("#toggle-rename").click(function () {
+        $('#rename').toggle(100);
+      });
+    });
+  </script>
 
 </@layout>

@@ -1,6 +1,4 @@
 
-## Make check test pass
-
 ## The controller DOES NOT USE THE DOMAIN OBJECT !!!  invent domain rules so that the domain object makes more sense
 ## Add arbitrary business rules
    - add wip to lists: cannot add things when there are more than WIP todo things.  but you can still uncheck things
@@ -11,8 +9,6 @@
    - router returns a command/query handler
 
 ## improve graphics esp. single list page
-
-## uncheck items
 
 ## Check HTTP status code in End2end test -- I tried testing for redirection after post, but somehow it always gives me 200 ???
 
