@@ -22,12 +22,13 @@ public class CheckTodoItemControllerTest implements DomainEventSubscriber<Domain
 	@Test
     public void markTodoItemDone() throws Exception {
 		when(webRequest.getPathParameter(1)).thenReturn("1111");
+		when(webRequest.getParameter("done")).thenReturn("true");
 		TodoItem todoItem = new TodoItem("abcd");
 		when(repository.find("1111")).thenReturn(todoItem);
 
 		controller.service(webRequest, response);
 
-		assertThat(handledEvents , hasItem(equalTo(new TodoItemCheckedEvent("1111"))));
+		assertThat(handledEvents , hasItem(equalTo(new TodoItemCheckedEvent("1111", true))));
 		verify(response).sendRedirect("/todolists/abcd");
     }
 

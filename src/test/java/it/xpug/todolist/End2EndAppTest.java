@@ -80,6 +80,23 @@ public class End2EndAppTest {
 		assertEquals("now nothing to do", 0, myTodoItems().size());
     }
 
+	@Test
+    public void unCheckingATodoItem() throws Exception {
+		String todoListPath = createNewTodoList();
+		String todoItemPath = createNewTodoItem(todoListPath);
+		post(todoItemPath, "done=true");
+
+		get(todoListPath);
+		assertEquals("now one thing is completed", 1, myDoneItems().size());
+		assertEquals("now nothing to do", 0, myTodoItems().size());
+
+		post(todoItemPath, "done=false");
+
+		get(todoListPath);
+		assertEquals("now it's not checked", 0, myDoneItems().size());
+		assertEquals("and it's still to do", 1, myTodoItems().size());
+    }
+
 	@BeforeClass
 	public static void startTheApplication() throws Exception {
 		app.start(8888, "src/test/webapp");

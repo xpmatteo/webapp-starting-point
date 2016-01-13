@@ -16,10 +16,6 @@ public class TodoItem {
 	    return isDone;
     }
 
-	public void setDone() {
-		this.isDone = true;
-    }
-
 	public String getTodoListId() {
 	    return todoListId;
 	}

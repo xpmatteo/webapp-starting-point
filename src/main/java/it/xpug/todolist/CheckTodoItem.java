@@ -1,5 +1,7 @@
 package it.xpug.todolist;
 
+import static java.lang.Boolean.*;
+
 import java.io.*;
 
 import javax.servlet.http.*;
@@ -17,7 +19,8 @@ public class CheckTodoItem extends Command {
 	public void service(WebRequest webRequest, HttpServletResponse response) throws IOException {
 		String todoItemId = webRequest.getPathParameter(1);
 		TodoItem todoItem = repository.find(todoItemId);
-		DomainEventPublisher.instance().publish(new TodoItemCheckedEvent(todoItemId));
+		boolean done = valueOf(webRequest.getParameter("done"));
+		DomainEventPublisher.instance().publish(new TodoItemCheckedEvent(todoItemId, done));
 		response.sendRedirect("/todolists/" + todoItem.getTodoListId());
     }
 

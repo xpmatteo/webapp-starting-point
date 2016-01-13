@@ -31,8 +31,8 @@ public class TodoListMainPageProjection implements DomainEventSubscriber<DomainE
         }
 		else if (aDomainEvent instanceof TodoItemCheckedEvent) {
 			TodoItemCheckedEvent event = (TodoItemCheckedEvent) aDomainEvent;
-			String sql = "update todo_items_page_projection set done = true where id = ?";
-			database.execute(sql, event.getId());
+			String sql = "update todo_items_page_projection set done = ? where id = ?";
+			database.execute(sql, event.isDone(), event.getId());
         }
     }
 

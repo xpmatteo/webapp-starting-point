@@ -23,7 +23,7 @@ public class TodoItemRepositoryTest {
 	@Test
     public void findChecked() throws Exception {
 	    eventStore.handleEvent(new TodoItemCreatedEvent("itemId", "listId", "text"));
-	    eventStore.handleEvent(new TodoItemCheckedEvent("itemId"));
+	    eventStore.handleEvent(new TodoItemCheckedEvent("itemId", true));
 
 	    TodoItem todoItem = repository.find("itemId");
 
