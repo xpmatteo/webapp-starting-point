@@ -11,7 +11,7 @@ public class ShowSingleList extends Command {
 
 	private Database database;
 
-	public ShowSingleList(Database database) throws IOException {
+	public ShowSingleList(Database database) {
 		this.database = database;
     }
 

@@ -140,7 +140,6 @@ public class End2EndAppTest {
 		try (InputStream inputStream = connection.getInputStream()) {
 			String bodyAsString = toString(inputStream);
 			this.responseBody = new XmlNode(bodyAsString);
-//	????		assertThat(connection.getResponseCode(), Matchers.is(302));
 			return bodyAsString;
 		}
 

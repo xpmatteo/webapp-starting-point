@@ -34,6 +34,18 @@ public class Router {
 			nonEmptyParameterRequired = name;
 			return this;
 		}
+
+		@Override
+		public String toString() {
+		    return String.format(
+		    		"%s get required? %s post required? %s parameter required? %s",
+		    		this.path,
+		    		this.isGetRequired,
+		    		this.isPostRequired,
+		    		this.nonEmptyParameterRequired
+		    		);
+
+		}
 	}
 
 	private Supplier<Command> defaultCommand;
