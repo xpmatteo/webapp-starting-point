@@ -41,7 +41,7 @@
 
   <form action="/todolists/${todoList.id}" method="post">
     <p>
-      <input type="text" name="new_item" placeholder="e.g. Buy milk" />
+      <input type="text" name="new_item" placeholder="e.g. Buy milk" autofocus="autofocus" />
       <input type="submit" value="+ Add this item" />
     </p>
   </form>
